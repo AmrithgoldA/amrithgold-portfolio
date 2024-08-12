@@ -1,9 +1,9 @@
 'use client'
 
-import { MotionUp } from "../assets/Animations/Motion-up"
+import { MotionUp } from "../assets/Animations/Motionup"
+import { TextAppearAnimation } from "../assets/Animations/TextAppearAnimation";
 import setupImage from '../assets/images/SetupImage.png';
 import profileImage from '../assets/images/profileImage.png'
-import { TextAppearAnimation } from "../assets/Animations/Text-appear";
 import { FaLocationArrow, FaDownload } from "react-icons/fa6";
 import { Highlight } from "../assets/Animations/highlight";
 
