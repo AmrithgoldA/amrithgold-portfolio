@@ -5,7 +5,7 @@ import { TextAppearAnimation } from "../assets/Animations/TextAppearAnimation";
 import setupImage from '../assets/images/SetupImage.png';
 import profileImage from '../assets/images/profileImage.png'
 import { FaLocationArrow, FaDownload } from "react-icons/fa6";
-import { Highlight } from "../assets/Animations/highlight";
+import { Highlight } from "../assets/Animations/Highlight";
 
 export default function LandingPage() {
 
@@ -15,7 +15,7 @@ export default function LandingPage() {
                 <div className="max-w-6xl w-full mx-auto px-4 flex justify-center relative z-10">
                     <div className="flex flex-col items-center justify-center w-full">
                         <MotionUp delay={0}>
-                            <h1 className="text-3xl md:text-6xl text-neutral-700 dark:text-blue-100 !leading-snug text-center mx-auto font-[900]">
+                            <h1 className="text-3xl md:text-6xl text-blue-100 !leading-snug text-center mx-auto font-[900]">
                                 Hi, I'm Amrith Gold, a Self Taught
                                 <br />
                                 <Highlight delay={1.8}>
