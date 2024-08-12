@@ -8,7 +8,6 @@ import profileImage from '../assets/images/profileImage.png'
 import { FaLocationArrow, FaDownload } from "react-icons/fa6";
 
 export default function LandingPage() {
-
     return (
         <>
             <div className="pt-20">
