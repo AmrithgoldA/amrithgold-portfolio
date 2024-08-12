@@ -2,13 +2,12 @@
 
 import { MotionUp } from "../assets/Animations/Motionup"
 import { TextAppearAnimation } from "../assets/Animations/TextAppearAnimation";
-import { Highlight } from "../assets/Animations/Highlight";
+import { Highlight } from "../assets/Animations/Highlight.tsx";
 import setupImage from '../assets/images/SetupImage.png';
 import profileImage from '../assets/images/profileImage.png'
 import { FaLocationArrow, FaDownload } from "react-icons/fa6";
 
 export default function LandingPage() {
-
     return (
         <>
             <div className="pt-20">
