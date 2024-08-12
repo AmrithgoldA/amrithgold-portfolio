@@ -5,7 +5,7 @@ import { TextAppearAnimation } from "../assets/Animations/TextAppearAnimation";
 import setupImage from '../assets/images/SetupImage.png';
 import profileImage from '../assets/images/profileImage.png'
 import { FaLocationArrow, FaDownload } from "react-icons/fa6";
-import { Highlight } from "../assets/Animations/highlight";
+import { Highlight } from "../assets/Animations/Highlight";
 
 export default function LandingPage() {
 
