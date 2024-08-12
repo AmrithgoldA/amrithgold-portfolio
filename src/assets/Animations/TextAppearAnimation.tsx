@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-interface TextAppearAnimationProps {
+type TextAppearAnimationProps = {
     text: string;
     className?: string;
     center?: boolean;
@@ -49,14 +49,13 @@ export function TextAppearAnimation({ text, className, center }: TextAppearAnima
             variants={container}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: false }}
         >
             {words.map((word, index) => (
                 <motion.span
                     variants={child}
                     style={{ marginRight: "6px", fontFamily: "inherit" }}
                     key={index}
-                    className={index === (words.length-1) ? "text-purple" : ""}
+                    className={index === (words.length-1) ? "text-purple-300" : ""}
                 >
                     {word}
                 </motion.span>
