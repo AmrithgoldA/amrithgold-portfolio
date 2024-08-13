@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-export function Highlight({
+export function TextHighlight({
     children,
     className,
     delay=1

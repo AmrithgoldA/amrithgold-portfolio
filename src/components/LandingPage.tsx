@@ -2,7 +2,7 @@
 
 import { MotionUp } from "../assets/Animations/Motionup"
 import { TextAppearAnimation } from "../assets/Animations/TextAppearAnimation";
-import { Highlight } from "../assets/Animations/Highlight";
+import { TextHighlight } from "../assets/Animations/TextHighlight";
 import setupImage from '../assets/images/SetupImage.png';
 import profileImage from '../assets/images/profileImage.png'
 import { FaLocationArrow, FaDownload } from "react-icons/fa6";
@@ -17,9 +17,9 @@ export default function LandingPage() {
                             <h1 className="text-3xl md:text-6xl text-blue-100 !leading-snug text-center mx-auto font-[900]">
                                 Hi, I'm Amrith Gold, a Self Taught
                                 <br />
-                                <Highlight delay={1.8}>
+                                <TextHighlight delay={1.8}>
                                     Software Developer
-                                </Highlight>
+                                </TextHighlight>
                             </h1>
                         </MotionUp>
 
@@ -27,8 +27,8 @@ export default function LandingPage() {
                             <h6 className="text-center !leading-7 md:!leading-10 font-semibold text-2 lg:text-3xl max-w-xl  text-blue-100 ">
                                 Based in Tamil Nadu, India,
                                 <br />
-                                Specialized in <Highlight delay={1.8}>React</Highlight> and{" "}
-                                <Highlight delay={1.8}>Next.js</Highlight>
+                                Specialized in <TextHighlight delay={1.8}>React</TextHighlight> and{" "}
+                                <TextHighlight delay={1.8}>Next.js</TextHighlight>
                             </h6>
                         </MotionUp>
 
