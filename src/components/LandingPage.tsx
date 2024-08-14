@@ -17,7 +17,7 @@ export default function LandingPage() {
     useEffect(() => {
         async function getMediaData() {
             try {
-                const mediaRef = ref(storage, 'Amrith resume (1).pdf');
+                const mediaRef = ref(storage, 'Amrith Gold resume.pdf');
                 const url = await getDownloadURL(mediaRef);
                 setMediafile(url);
                 console.log(mediaFile);
