@@ -6,8 +6,36 @@ import { TextHighlight } from "../assets/Animations/TextHighlight";
 import setupImage from '../assets/images/SetupImage.png';
 import profileImage from '../assets/images/profileImage.png'
 import { FaLocationArrow, FaDownload } from "react-icons/fa6";
+import { storage } from '../../firebase.config';
+import { ref, getDownloadURL } from 'firebase/storage';
+import { useEffect, useState } from "react";
 
 export default function LandingPage() {
+
+    const [mediaFile, setMediafile] = useState("")
+
+    useEffect(() => {
+        async function getMediaData() {
+            try {
+                const mediaRef = ref(storage, 'Amrith resume (1).pdf');
+                const url = await getDownloadURL(mediaRef);
+                setMediafile(url);
+                console.log(mediaFile);
+                
+            } catch (error) {
+                console.error("Error fetching media file:", error);
+            }
+        }
+
+        getMediaData();
+    }, []);
+
+    const handleResumeDownload = () => {
+        if (mediaFile) {
+            window.open(mediaFile, '_blank');
+        }
+    }
+
     return (
         <>
             <div className="pt-20">
@@ -28,7 +56,7 @@ export default function LandingPage() {
                                 Based in Tamil Nadu, India,
                                 <br />
                                 Specialized in <TextHighlight delay={1.8}>React</TextHighlight> and{" "}
-                                <TextHighlight delay={1.8}>Next.js</TextHighlight>
+                                <TextHighlight delay={1.8}>Node.js</TextHighlight>
                             </h6>
                         </MotionUp>
 
@@ -44,6 +72,7 @@ export default function LandingPage() {
                             </button>
                             <button
                                 className='relative inline-flex h-12 md:w-60 overflow-hidden rounded-lg p-[1px] focus:outline-none text-lg'
+                                onClick={() => handleResumeDownload()}
                             >
                                 <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
                                 <span className='inline-flex h-full w-full cursor-pointer items-center justify-center rounded-lg bg-slate-950 px-3 font-medium text-white backdrop-blur-3xl gap-2'>
