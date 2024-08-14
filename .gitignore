@@ -17,7 +17,6 @@ dist-ssr
 .env.[mode]         # only loaded in specified mode
 .env.[mode].local   # only loaded in specified mode, ignored by git
 
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
