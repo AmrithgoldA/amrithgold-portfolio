@@ -21,7 +21,6 @@ export default function LandingPage() {
                 const url = await getDownloadURL(mediaRef);
                 setMediafile(url);
                 console.log(mediaFile);
-                
             } catch (error) {
                 console.error("Error fetching media file:", error);
             }
