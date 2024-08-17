@@ -6,28 +6,23 @@ import { TextHighlight } from "../assets/Animations/TextHighlight";
 import setupImage from '../assets/images/SetupImage.png';
 import profileImage from '../assets/images/profileImage.png'
 import { FaLocationArrow, FaDownload } from "react-icons/fa6";
-import { storage } from '../../firebase.config';
-import { ref, getDownloadURL } from 'firebase/storage';
 import { useEffect, useState } from "react";
+import { getMediaData } from "../api/route/FireBaseRoute";
 
 export default function LandingPage() {
 
-    const [mediaFile, setMediafile] = useState("")
+    const [mediaFile, setMediafile] = useState("");
 
     useEffect(() => {
-        async function getMediaData() {
-            try {
-                const mediaRef = ref(storage, 'Amrith Gold resume.pdf');
-                const url = await getDownloadURL(mediaRef);
-                setMediafile(url);
-                console.log(mediaFile);
-            } catch (error) {
-                console.error("Error fetching media file:", error);
-            }
-        }
 
-        getMediaData();
+        getProfilePic()
+
     }, []);
+
+    const getProfilePic = async() => {
+        const profilePicResponse: any = await getMediaData('Amrith Gold resume.pdf')
+        setMediafile(profilePicResponse)
+    }
 
     const handleResumeDownload = () => {
         if (mediaFile) {

@@ -5,8 +5,33 @@ import { formatDate } from "../lib/utils";
 import companyLogo from '../assets/images/avasoftLogo.png'
 import Marquee from "react-fast-marquee";
 import { MagicCard } from "../assets/Animations/MagicCard";
+import { useEffect, useState } from "react";
+import { getSkillsData } from "../api/route/CarrierHistoryRoute";
+import { getMediaData } from "../api/route/FireBaseRoute";
 
 export default function CarrerHistory() {
+
+    const [userSkillsData, setUserSkillsData] = useState([])
+
+    useEffect(() => {
+        getUSerSkills()
+    },[])
+
+    const getUSerSkills = async() => {
+
+        const userSkillsResponse:any = await getSkillsData()
+
+        const updatedSkillsArray: any = await Promise.all(
+            userSkillsResponse.data.map(async (eachFile: any) => {
+                const skillImageResponse: any = await getMediaData(eachFile.firebase_file_name);
+                return { ...eachFile, image: skillImageResponse };
+            })
+        );
+
+        console.log(updatedSkillsArray)
+
+        setUserSkillsData(updatedSkillsArray)
+    }
 
     const Experience: any = [
         {
@@ -27,59 +52,6 @@ export default function CarrerHistory() {
             endDate: "01/07/2023",
             jobDescription: "Designed and developed 2 web applications from scratch using React and its ecosystem. Coordinated directly with the founding team to plan the roadmap and prioritize feature development. Participated in sprint planning and agile ceremonies to deliver features in iterative cycles"
         }
-    ]
-
-    const skills = [
-        {
-            name: "TEST",
-            image: companyLogo,
-            url: ""
-        },
-        {
-            name: "TEST",
-            image: companyLogo,
-            url: ""
-        },
-        {
-            name: "TEST",
-            image: companyLogo,
-            url: ""
-        },
-        {
-            name: "TEST",
-            image: companyLogo,
-            url: ""
-        },
-        {
-            name: "TEST",
-            image: companyLogo,
-            url: ""
-        },
-        {
-            name: "TEST",
-            image: companyLogo,
-            url: ""
-        },
-        {
-            name: "TEST",
-            image: companyLogo,
-            url: ""
-        },
-        {
-            name: "TEST",
-            image: companyLogo,
-            url: ""
-        },
-        {
-            name: "TEST",
-            image: companyLogo,
-            url: ""
-        },
-        {
-            name: "TEST",
-            image: companyLogo,
-            url: ""
-        },
     ]
 
     return (
@@ -152,7 +124,7 @@ export default function CarrerHistory() {
                         pauseOnHover
                         className="mt-5 overflow-hidden py-5"
                     >
-                        {skills.map((skill, index) => (
+                        {userSkillsData.map((eachSkill: any, index:any ) => (
                             <MagicCard
                                 className="hover:scale-105 transition-all duration-500 w-40 h-40 ms-10 flex-col items-center justify-center shadow-2xl whitespace-nowrap text-4xl"
                                 gradientColor="#262626"
@@ -160,23 +132,23 @@ export default function CarrerHistory() {
                             >
                                 <div className="flex flex-col items-center w-full gap-2">
                                     <img
-                                        src={skill.image}
-                                        alt={skill.name}
+                                        src={eachSkill.image}
+                                        alt={eachSkill.name}
                                         width={80}
                                         height={80}
                                         className="h-16 w-16 rounded-full object-cover border border-white bg-white"
                                     />
                                     <h6 className="text-start text-lg font-bold text-blue-100">
-                                        {skill.url ? (
+                                        {eachSkill.official_website ? (
                                             <a
                                                 target="_blank"
-                                                href={skill.url}
+                                                href={eachSkill.official_website}
                                                 className="hover:underline"
                                             >
-                                                {skill.name}
+                                                {eachSkill.skill_name}
                                             </a>
                                         ) : (
-                                            skill.name
+                                            eachSkill.skill_name
                                         )}
                                     </h6>
                                 </div>
