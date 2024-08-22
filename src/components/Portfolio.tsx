@@ -1,4 +1,5 @@
 import CarrerHistory from "./CarrerHistory";
+import Contact from "./Contact";
 import LandingPage from "./LandingPage";
 
 export default function Portfolio() {
@@ -6,6 +7,7 @@ export default function Portfolio() {
         <>
             <LandingPage />
             <CarrerHistory />
+            <Contact />
         </>
     )
 };
