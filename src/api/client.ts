@@ -3,7 +3,7 @@ import axios from "axios";
 const client = async(url: string, method: string, body: any ) => {
 
     let config: any = {
-        url: `https://amrith-portfolio-backend-p4slpv08m-amrithgoldas-projects.vercel.app/${url}`,
+        url: `https://amrith-portfolio-backend-p4slpv08m-amrithgoldas-projects.vercel.app${url}`,
         method: method,
         header:{
             "content-type": 'application/json'
