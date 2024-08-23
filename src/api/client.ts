@@ -3,15 +3,15 @@ import axios from "axios";
 const client = async(url: string, method: string, body: any ) => {
 
     let config: any = {
-        url: `https://amrith-portfolio-backend.onrender.com${url}`,
+        url: `http://localhost:3001${url}`,
         method: method,
-        header:{
+        headers:{
             "content-type": 'application/json'
         },
         data: body
     }
 
-    const response = axios(config)
+    const response = await axios(config)
 
     return response
 }
