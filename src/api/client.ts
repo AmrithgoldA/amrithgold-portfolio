@@ -5,13 +5,13 @@ const client = async(url: string, method: string, body: any ) => {
     let config: any = {
         url: `https://amrith-portfolio-backend-p4slpv08m-amrithgoldas-projects.vercel.app${url}`,
         method: method,
-        header:{
+        headers:{
             "content-type": 'application/json'
         },
         data: body
     }
 
-    const response = axios(config)
+    const response = await axios(config)
 
     return response
 }

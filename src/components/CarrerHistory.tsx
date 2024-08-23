@@ -28,8 +28,6 @@ export default function CarrerHistory() {
             })
         );
 
-        console.log(updatedSkillsArray)
-
         setUserSkillsData(updatedSkillsArray)
     }
 

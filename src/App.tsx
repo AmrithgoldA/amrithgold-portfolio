@@ -1,4 +1,4 @@
-import './App.css'
+import './index.css'
 import { Route, Routes, BrowserRouter } from 'react-router-dom'
 import Portfolio from './components/Portfolio'
 
