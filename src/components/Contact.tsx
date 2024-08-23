@@ -141,7 +141,7 @@ export default function Contact() {
     };
 
     return (
-        <div className="py-10" id="contact">
+        <div className="pb-10" id="contact">
             <div className="max-w-6xl w-full mx-auto px-4">
                 <MotionUp delay={0.1}>
                     <h2 className="text-center font-bold text-3xl text-blue-100 relative z-20">
