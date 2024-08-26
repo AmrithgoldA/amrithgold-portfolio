@@ -66,7 +66,7 @@ export default function LandingPage() {
 
                         <MotionUp delay={0.6} className="flex items-center gap-3 mt-5">
                             <button
-                                className='cursor-pointer relative inline-flex h-12 md:w-60 overflow-hidden rounded-lg p-[1px] focus:outline-none text-lg'
+                                className='cursor-pointer w-[150px] relative inline-flex h-12 md:w-60 overflow-hidden rounded-lg p-[1px] focus:outline-none text-lg'
                                 onClick={() => scrollToDiv()}
                             >
                                 <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
