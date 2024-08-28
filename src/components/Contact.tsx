@@ -160,7 +160,7 @@ export default function Contact() {
                             <div className="relative flex flex-wrap justify-center items-center w-full shadow-md">
                                 <div className="w-full px-6">
                                     <h6 className="text-blue-100 italic font-bold text-xl uppercase">
-                                        believe in <span className="text-purple">Karma</span>
+                                        Persistence drives <span className="text-purple-400">success.</span>
                                     </h6>
                                 </div>
 
