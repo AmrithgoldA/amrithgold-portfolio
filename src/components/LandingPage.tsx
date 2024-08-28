@@ -20,7 +20,7 @@ export default function LandingPage() {
 
     }, []);
 
-    const getProfilePic = async() => {
+    const getProfilePic = async () => {
         const profilePicResponse: any = await getMediaData('Amrith Gold resume.pdf')
         setMediafile(profilePicResponse)
     }
@@ -104,19 +104,14 @@ export default function LandingPage() {
                                         My Journey
                                     </h2>
                                     <p className="text-blue-100 text-normal sm:text-lg sm:text-justify">
-                                        Starting in June 2021 during the lockdown, I embarked on my journey to become
-                                        a software developer alone, without any teacher or mentor. At that time, I had
-                                        no prior knowledge of programming. I seized the opportunity to learn something
-                                        new during the lockdown, and it turned out to be an incredible journey. I have
-                                        learned extensively from online resources, without taking any formal courses.
-                                        Now, I specialize in React and Node.js and am capable of creating software independently.
+                                        My journey began in 2022 when I decided to become a software developer, starting on my own without any teacher or mentor. At that time, I had no prior knowledge of programming. I took the initiative to learn something new, and it turned out to be an incredible journey. I have learned extensively from online resources without taking any formal courses. Now, I specialize in React and Node.js and am capable of creating software independently.
                                     </p>
                                     <TextAppearAnimation
                                         className="text-white italic font-semibold text-xl mt-5 uppercase animate-pulse"
-                                        text="Strongly believe in Karma"
+                                        text="Persistence drives success."
                                     />
                                 </div>
-                                <div className="flex justify-center order-1 lg:order-2 w-full lg:w-[30%]">
+                                <div className="flex justify-center order-1 lg:order-2 w-full lg:w-[27%]">
                                     <img
                                         src={profileImage}
                                         width={300}
