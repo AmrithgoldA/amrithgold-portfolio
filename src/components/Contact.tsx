@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { MotionUp } from "../assets/Animations/Motionup";
 import setupImage from '../assets/images/SetupImage.png';
 import { FaGithub, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
-import { getSocialLinks, sendEmail } from "../api/route/ContactRoute";
+import { getSocialLinks, sendEmail } from "../api/routes/ContactRoute";
 import { IoSendSharp } from "react-icons/io5";
 import { contactInfoType } from "../types/contactType";
 import { cn } from "../lib/utils";
