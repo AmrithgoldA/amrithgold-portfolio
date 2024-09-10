@@ -6,8 +6,8 @@ import companyLogo from '../assets/images/avasoftLogo.png'
 import Marquee from "react-fast-marquee";
 import { MagicCard } from "../assets/Animations/MagicCard";
 import { useEffect, useState } from "react";
-import { getSkillsData } from "../api/route/CarrierHistoryRoute";
-import { getMediaData } from "../api/route/FireBaseRoute";
+import { getSkillsData } from "../api/routes/CarrierHistoryRoute";
+import { getMediaData } from "../api/routes/FireBaseRoute";
 
 export default function CarrerHistory() {
 

@@ -7,7 +7,7 @@ import setupImage from '../assets/images/SetupImage.png';
 import profileImage from '../assets/images/profileImage.png'
 import { FaLocationArrow, FaDownload } from "react-icons/fa6";
 import { useEffect, useState } from "react";
-import { getMediaData } from "../api/route/FireBaseRoute";
+import { getMediaData } from "../api/routes/FireBaseRoute";
 import { scroller } from "react-scroll";
 
 export default function LandingPage() {
