@@ -1,14 +1,14 @@
-import { AnimationLottie } from "../assets/Animations/AnimationLottie";
-import { MotionUp } from "../assets/Animations/Motionup";
-import expLottie from "../assets/lotte-animation/experience.json";
-import { formatDate } from "../lib/utils";
-import companyLogo from '../assets/images/avasoftLogo.png'
+import { AnimationLottie } from "../../assets/Animations/AnimationLottie";
+import { MotionUp } from "../../assets/Animations/Motionup";
+import expLottie from "../../assets/lotte-animation/experience.json";
+import { formatDate } from "../../lib/utils";
+import companyLogo from '../../assets/images/avasoftLogo.png'
 import Marquee from "react-fast-marquee";
-import { MagicCard } from "../assets/Animations/MagicCard";
+import { MagicCard } from "../../assets/Animations/MagicCard";
 import { useEffect, useState } from "react";
-import { getSkillsData } from "../api/routes/CarrierHistoryRoute";
-import { getMediaData } from "../api/routes/FireBaseRoute";
-import { MovingBorder } from "./Border/MovingBorder";
+import { getSkillsData } from "../../api/routes/CarrierHistoryRoute";
+import { getMediaData } from "../../api/routes/FireBaseRoute";
+import { MovingBorder } from "./MovingBorder";
 
 export default function CarrerHistory() {
 
