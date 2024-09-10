@@ -232,7 +232,6 @@ export default function Contact() {
                                         placeholder:text-neutral-500 
                                         focus-visible:outline-none focus-visible:ring-0
                                         disabled:cursor-not-allowed disabled:opacity-50
-                                        shadow-[0px_0px_1px_1px_var(--neutral-700)]
                                         group-hover:shadow-none transition duration-400"
                                         value={contactDetails.name}
                                         onChange={(e) => handleAddContact(e)}
@@ -254,7 +253,6 @@ export default function Contact() {
                                         placeholder:text-neutral-500 
                                         focus-visible:outline-none focus-visible:ring-0
                                         disabled:cursor-not-allowed disabled:opacity-50
-                                        shadow-[0px_0px_1px_1px_var(--neutral-700)]
                                         group-hover:shadow-none transition duration-400"
                                         onChange={(e) => handleAddContact(e)}
                                         value={contactDetails.email}
@@ -276,7 +274,6 @@ export default function Contact() {
                                         placeholder:text-neutral-500 
                                         focus-visible:outline-none focus-visible:ring-0
                                         disabled:cursor-not-allowed disabled:opacity-50
-                                        shadow-[0px_0px_1px_1px_var(--neutral-700)]
                                         group-hover:shadow-none transition duration-400"
                                         onChange={(e) => handleAddContact(e)}
                                         value={contactDetails.subject}
@@ -299,7 +296,6 @@ export default function Contact() {
                                         placeholder:text-neutral-500 
                                         focus-visible:outline-none focus-visible:ring-0
                                         disabled:cursor-not-allowed disabled:opacity-50
-                                        shadow-[0px_0px_1px_1px_var(--neutral-700)]
                                         group-hover:shadow-none transition duration-400 resize-none"
                                         onChange={(e) => handleAddContact(e)}
                                         value={contactDetails.message}

@@ -8,6 +8,7 @@ import { MagicCard } from "../assets/Animations/MagicCard";
 import { useEffect, useState } from "react";
 import { getSkillsData } from "../api/routes/CarrierHistoryRoute";
 import { getMediaData } from "../api/routes/FireBaseRoute";
+import { MovingBorder } from "./Border/MovingBorder";
 
 export default function CarrerHistory() {
 
@@ -69,8 +70,12 @@ export default function CarrerHistory() {
 
                         <div className="flex flex-col gap-6">
                             {Experience.map((experience: any, index: number) => (
-                                <div
+                                <MovingBorder
                                     key={index}
+                                    borderRadius="1rem"
+                                    style={{
+                                        borderRadius: `calc(1rem* 0.96)`,
+                                    }}
                                     className="border flex-1 rounded-3xl text-blue-100 border-slate-800"
                                 >
                                     <div className="flex w-full p-4 py-6  gap-2">
@@ -106,7 +111,7 @@ export default function CarrerHistory() {
                                             </p>
                                         </div>
                                     </div>
-                                </div>
+                                </MovingBorder>
                             ))}
                         </div>
                     </div>
