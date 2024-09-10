@@ -1,13 +1,13 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { MotionUp } from "../assets/Animations/Motionup";
-import setupImage from '../assets/images/SetupImage.png';
+import { MotionUp } from "../../assets/Animations/Motionup";
+import setupImage from '../../assets/images/SetupImage.png';
 import { FaGithub, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
-import { getSocialLinks, sendEmail } from "../api/routes/ContactRoute";
+import { getSocialLinks, sendEmail } from "../../api/routes/ContactRoute";
 import { IoSendSharp } from "react-icons/io5";
-import { contactInfoType } from "../types/contactType";
-import { cn } from "../lib/utils";
+import { contactInfoType } from "../../types/contactType";
+import { cn } from "../../lib/utils";
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
