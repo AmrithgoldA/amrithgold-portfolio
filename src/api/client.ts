@@ -3,7 +3,7 @@ import axios from "axios";
 const client = async(url: string, method: string, body: any ) => {
 
     let config: any = {
-        url: `http://localhost:3001${url}`,
+        url: `https://amrith-portfolio-backend.vercel.app${url}`,
         method: method,
         headers:{
             "content-type": 'application/json'
