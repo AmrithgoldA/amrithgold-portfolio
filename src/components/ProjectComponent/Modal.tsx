@@ -4,7 +4,7 @@ import { cn } from "../../lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { ReactNode, useEffect, useRef } from "react";
 import { useOutsideClick } from "../../lib/hooks/useOutsideClick";
-import { useModal } from "./ModalProvider";
+import { useModal } from "../../context/ModalProvider";
 
 export function Modal({ children }: { children: ReactNode }) {
   return <>{children}</>;
@@ -73,7 +73,7 @@ export function ModalBody({
           <motion.div
             ref={modalRef}
             className={cn(
-              "min-h-[50%] max-h-[90%] md:max-w-[600px] bg-white dark:bg-neutral-950 border border-transparent dark:border-neutral-800 md:rounded-2xl relative z-50 flex flex-col flex-1 overflow-auto no-scrollbar",
+              "min-h-[50%] max-h-[90%] md:max-w-[600px] bg-neutral-950 border border-neutral-800 md:rounded-2xl relative z-50 flex flex-col flex-1 overflow-auto no-scrollbar",
               className
             )}
             initial={{
@@ -132,7 +132,7 @@ export function ModalFooter({
   return (
     <div
       className={cn(
-        "flex justify-end p-4 bg-gray-100 dark:bg-neutral-900",
+        "flex justify-end p-4 bg-neutral-900",
         className
       )}
     >
@@ -180,7 +180,7 @@ function CloseIcon() {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="text-black dark:text-white h-4 w-4 group-hover:scale-125 group-hover:rotate-3 transition duration-200"
+        className="text-white h-4 w-4 group-hover:scale-125 group-hover:rotate-3 transition duration-200"
       >
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <path d="M18 6l-12 12" />

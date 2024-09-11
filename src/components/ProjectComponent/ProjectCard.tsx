@@ -1,17 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "../../lib/utils";
+import { useState } from "react";
+import { useModal } from "../../context/ModalProvider";
 import { ModalTrigger } from "./Modal";
-import { useModal } from "./ModalProvider";
-import { Project } from "../../types/Project";
 
-interface Props {
-  data: Project
-}
+export function ProjectCard({ data }: any) {
 
-export function ProjectCard({ data }: Props) {
   const { setModalData } = useModal();
 
   const handleSetModalContent = () => {
@@ -36,7 +32,7 @@ export function ProjectCard({ data }: Props) {
           {data.title}
         </h3>
         <div className="text-base !m-0 !p-0 font-normal">
-          <p className="text-slate-400 line-clamp-4 ">{data.description}</p>
+          <p className="text-slate-400 line-clamp-4">{data.description}</p>
         </div>
       </div>
     </PinContainer>
@@ -71,7 +67,7 @@ function PinContainer({
     <ModalTrigger>
       <button
         className={cn(
-          "relative group/pin z-50  cursor-pointer w-full block text-left h-[400px]",
+          "relative group/pin z-50 cursor-pointer w-full block text-left h-[400px]",
           containerClassName
         )}
         onMouseEnter={onMouseEnter}
@@ -152,7 +148,7 @@ function PinPerspective({ title }: { title?: string }) {
               }}
               className="absolute left-1/2 top-1/2  h-[11.25rem] w-[11.25rem] rounded-[50%] bg-red-500/20 shadow-[0_8px_16px_rgb(0_0_0/0.4)]"
             ></motion.div>
-            <motion.div
+            <motion.div 
               initial={{
                 opacity: 0,
                 scale: 0,

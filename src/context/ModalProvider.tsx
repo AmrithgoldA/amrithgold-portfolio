@@ -1,6 +1,6 @@
 "use client";
 
-import { Project } from "../../types/Project";
+import { Project } from "../types/Project";
 import {
   ReactNode,
   createContext,
