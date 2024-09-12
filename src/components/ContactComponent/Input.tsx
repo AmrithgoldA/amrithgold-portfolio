@@ -50,11 +50,10 @@ const MotionComponent = <T extends HTMLElement>({
             <Component
                 type={type}
                 className={cn(
-                    `flex w-full border-none bg-zinc-900 text-black dark:text-white shadow-input rounded-md px-3 py-2 text-sm 
-                    placeholder:text-neutral-500 dark:placeholder-text-neutral-500 
-                    focus-visible:outline-none  focus-visible:ring-0 dark:focus-visible:ring-0
+                    `flex w-full border-none bg-zinc-900 text-white shadow-input rounded-md px-3 py-2 text-sm 
+                    placeholder-text-neutral-500 
+                    focus-visible:outline-none focus-visible:ring-0
                     disabled:cursor-not-allowed disabled:opacity-50
-                    dark:shadow-[0px_0px_1px_1px_var(--neutral-700)]
                     group-hover:shadow-none transition duration-400`,
                     className
                 )}
