@@ -227,7 +227,7 @@ export default function Contact() {
                                     </Label>
                                     <Input
                                         id="name"
-                                        placeholder="Abhishek Bhardwaj"
+                                        placeholder="Amrith Gold"
                                         type="text"
                                         value={contactDetails.name}
                                         onChange={(e: any) => handleAddContact(e)}
