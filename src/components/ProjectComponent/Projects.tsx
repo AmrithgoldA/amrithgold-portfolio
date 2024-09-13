@@ -21,10 +21,15 @@ export default function Projects() {
     }
 
     const [projectDetail, setProjectDetail] = useState<Project[]>([projectDetailObj])
+    const [initialCount, setInitialCount] = useState<number>(3)
 
     useEffect(() => {
         projectDetails();
     }, [])
+
+    function handleShowMore() {
+        setInitialCount(initialCount + 3)
+    }
 
     const projectDetails = async () => {
         const response: any = await getProjectsDetails();
@@ -53,10 +58,21 @@ export default function Projects() {
                         Explore My Latest Projects
                     </h2>
                     <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                        {projectDetail.map((eachProject: Project, index: any) => (
+                        {projectDetail.slice(0, initialCount).map((eachProject: Project, index: any) => (
                             <ProjectCard key={index} data={eachProject} />
                         ))}
                     </div>
+                    {(projectDetail.length > 3 && projectDetail.length !== initialCount) &&  (
+                        <button
+                            className='mx-auto !block mt-12 cursor-pointer relative h-12 md:w-60 overflow-hidden rounded-lg p-[1px] focus:outline-none text-lg'
+                            onClick={() => handleShowMore()}
+                        >
+                            <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+                            <span className='inline-flex h-full w-full items-center justify-center rounded-lg bg-slate-950 px-3 font-medium text-white backdrop-blur-3xl gap-2'>
+                                Load More
+                            </span>
+                        </button>
+                    )}
                 </MotionUp>
             </div>
 

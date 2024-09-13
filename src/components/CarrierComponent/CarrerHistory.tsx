@@ -117,7 +117,7 @@ export default function CarrerHistory() {
                     </div>
                 </MotionUp>
 
-                <MotionUp className="mt-10 p-0 py-10 rounded-lg" delay={0.3}>
+                <MotionUp className="p-0 pt-10 rounded-lg" delay={0.3}>
                     <h2 className="text-center font-bold text-3xl text-blue-100 relative z-20">
                         Expertise
                     </h2>
