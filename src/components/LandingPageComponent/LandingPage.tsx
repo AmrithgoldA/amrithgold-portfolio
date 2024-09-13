@@ -39,7 +39,6 @@ export default function LandingPage() {
         });
     };
 
-
     return (
         <>
             <div className="pt-20">
