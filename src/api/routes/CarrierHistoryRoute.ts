@@ -6,4 +6,15 @@ const getSkillsData = async() => {
     return response
 }
 
-export { getSkillsData }
+const getCarrierDetails = async() => {
+    try {
+        const response = client('/portfolio/carrierDetails', 'GET', '')
+        return response
+    }
+    catch (e) {
+        console.log("Error");
+        
+    }
+}
+
+export { getSkillsData, getCarrierDetails }
