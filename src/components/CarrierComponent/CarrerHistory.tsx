@@ -30,11 +30,11 @@ export default function CarrerHistory() {
     useEffect(() => {
         getUSerSkills()
         getCarrierData()
-    },[])
+    }, [])
 
-    const getUSerSkills = async() => {
+    const getUSerSkills = async () => {
 
-        const userSkillsResponse:any = await getSkillsData()
+        const userSkillsResponse: any = await getSkillsData()
 
         const updatedSkillsArray: any = await Promise.all(
             userSkillsResponse.data.map(async (eachFile: any) => {
@@ -46,13 +46,13 @@ export default function CarrerHistory() {
         setUserSkillsData(updatedSkillsArray)
     }
 
-    const getCarrierData = async() => {
+    const getCarrierData = async () => {
         const userCarrierList: any = await getCarrierDetails()
 
         const updatedCarrierList: JobExperience[] = await Promise.all(
             userCarrierList.data.map(async (eachList: JobExperience) => {
                 const companyLogoResponse: string | undefined = await getMediaData(eachList.companylogo);
-                return { ...eachList, companylogo: companyLogoResponse}
+                return { ...eachList, companylogo: companyLogoResponse }
             })
         )
 
@@ -74,52 +74,87 @@ export default function CarrerHistory() {
                             </div>
                         </div>
 
-                        <div className="flex flex-col gap-6">
-                            {userCarrierData.map((experience: JobExperience, index: number) => (
-                                <MovingBorder
-                                    key={index}
-                                    borderRadius="1rem"
-                                    style={{
-                                        borderRadius: `calc(1rem* 0.96)`,
-                                    }}
-                                    className="border flex-1 rounded-3xl text-blue-100 border-slate-800"
-                                >
-                                    <div className="flex w-full p-4 py-6  gap-2">
-                                        <img
-                                            src={experience.companylogo}
-                                            alt={experience.companyname}
-                                            width={300}
-                                            height={300}
-                                            className="lg:w-20 lg:h-20 h-16 w-16 rounded-full object-cover"
-                                        />
-                                        <div className="ms-2 sm:ms-5">
-                                            <h3 className="text-start text-blue-100 text-lg md:text-2xl font-bold">
-                                                {experience.position}
-                                            </h3>
-                                            <h6 className="text-start text-slate-300 mt-1 font-semibold">
-                                                <a
-                                                    target="_blank"
-                                                    href={experience.companyurl}
-                                                    className="hover:underline"
-                                                >
-                                                    {experience.companyname}
-                                                </a>{" "}
-                                                <span className="inline-flex relative bottom-[0.5px] h-2 w-2 rounded-full bg-slate-300 mx-1 "></span>{" "}
-                                                <span className="text-slate-300">
-                                                    {formatDate(experience.startdate)} - {" "}
-                                                    {experience.enddate
-                                                        ? formatDate(experience.enddate)
-                                                        : "Present"}
-                                                </span>
-                                            </h6>
-                                            <p className="text-start text-slate-400 text-sm mt-2 font-normal">
-                                                {experience.jobdescription}
-                                            </p>
+                        {userCarrierData[0].position !== "" ? (
+                            <div className="flex flex-col gap-6">
+                                {userCarrierData.map((experience: JobExperience, index: number) => (
+                                    <MovingBorder
+                                        key={index}
+                                        borderRadius="1rem"
+                                        style={{
+                                            borderRadius: `calc(1rem* 0.96)`,
+                                        }}
+                                        className="border flex-1 rounded-3xl text-blue-100 border-slate-800"
+                                    >
+                                        <div className="flex w-full p-4 py-6  gap-2">
+                                            <img
+                                                src={experience.companylogo}
+                                                alt={experience.companyname}
+                                                width={300}
+                                                height={300}
+                                                className="lg:w-20 lg:h-20 h-16 w-16 rounded-full object-cover"
+                                            />
+                                            <div className="ms-2 sm:ms-5">
+                                                <h3 className="text-start text-blue-100 text-lg md:text-2xl font-bold">
+                                                    {experience.position}
+                                                </h3>
+                                                <h6 className="text-start text-slate-300 mt-1 font-semibold">
+                                                    <a
+                                                        target="_blank"
+                                                        href={experience.companyurl}
+                                                        className="hover:underline"
+                                                    >
+                                                        {experience.companyname}
+                                                    </a>{" "}
+                                                    <span className="inline-flex relative bottom-[0.5px] h-2 w-2 rounded-full bg-slate-300 mx-1 "></span>{" "}
+                                                    <span className="text-slate-300">
+                                                        {formatDate(experience.startdate)} - {" "}
+                                                        {experience.enddate
+                                                            ? formatDate(experience.enddate)
+                                                            : "Present"}
+                                                    </span>
+                                                </h6>
+                                                <p className="text-start text-slate-400 text-sm mt-2 font-normal">
+                                                    {experience.jobdescription}
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </MovingBorder>
-                            ))}
-                        </div>
+                                    </MovingBorder>
+                                ))}
+                            </div>
+                        ) : (
+                                <div className="flex flex-col gap-6">
+                                    <MovingBorder
+                                        borderRadius="1rem"
+                                        style={{
+                                            borderRadius: `calc(1rem* 0.96)`,
+                                        }}
+                                        className="border flex-1 rounded-3xl text-blue-100 border-slate-800"
+                                    >
+                                        <div className="flex w-full p-4 py-6 gap-2">
+                                            <div className="pt-3 h-[5rem] w-[5rem] rounded-full mr-2">
+                                                <div className="h-[5rem] w-[5rem] rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
+                                            </div>
+                                            <div className="relative w-full space-y-3 overflow-hidden rounded-md p-3 shadow before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r">
+                                                <div className="space-y-3">
+                                                    <div className="space-y-1">
+                                                        <div className="h-6 w-full rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
+                                                        <div className="flex gap-2 !my-3">
+                                                            <div className="h-5 w-[6rem] rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
+                                                            <div className="h-5 w-[6rem] rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
+                                                        </div>
+                                                        <div className="h-4 w-full rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
+                                                        <div className="h-4 w-full rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
+                                                        <div className="h-4 w-full rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
+                                                        <div className="h-4 w-full rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
+                                                        <div className="h-4 w-7/12 rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </MovingBorder>
+                                </div>
+                            )
+                        }
                     </div>
                 </MotionUp>
 
@@ -133,7 +168,7 @@ export default function CarrerHistory() {
                         pauseOnHover
                         className="mt-5 overflow-hidden py-5"
                     >
-                        {userSkillsData.map((eachSkill: any, index:any ) => (
+                        {userSkillsData.map((eachSkill: any, index: any) => (
                             <MagicCard
                                 className="hover:scale-105 transition-all duration-500 w-40 h-40 ms-10 flex-col items-center justify-center shadow-2xl whitespace-nowrap text-4xl"
                                 gradientColor="#262626"
@@ -166,6 +201,7 @@ export default function CarrerHistory() {
                     </Marquee>
                 </MotionUp>
             </div>
+
         </div>
     )
 };
