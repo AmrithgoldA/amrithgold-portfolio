@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import CarrerHistory from "./CarrierComponent/CarrerHistory";
-import Contact from "./ContactComponent/Contact";
-import LandingPage from "./LandingPageComponent/LandingPage";
-import Projects from "./ProjectComponent/Projects";
+import { lazy, useEffect, useState } from "react";
+const LandingPage = lazy(() => import("./LandingPageComponent/LandingPage"));
+const CarrerHistory = lazy(() => import("./CarrierComponent/CarrerHistory"));
+const Projects = lazy(() => import("./ProjectComponent/Projects"));
+const Contact = lazy(() => import("./ContactComponent/Contact"));
 import Loader from "./Loader/Loader";
 
 export default function Portfolio() {
