@@ -1,8 +1,8 @@
 import './index.css'
 import { Route, Routes, BrowserRouter } from 'react-router-dom'
-import Portfolio from './components/Portfolio'
 import ReactGA from "react-ga4";
 import { ModalProvider } from './context/ModalProvider';
+import Portfolio from './components/Portfolio';
 
 ReactGA.initialize(import.meta.env.VITE_GOOGLE_MEASUREMENT_ID);
 
