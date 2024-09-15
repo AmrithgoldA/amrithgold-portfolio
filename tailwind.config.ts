@@ -93,6 +93,14 @@ const config = {
             "offset-distance": "100%",
           },
         },
+        rotateSlow: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        rotateFast: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -107,6 +115,8 @@ const config = {
         scroll:
           "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
         "border-beam": "border-beam calc(var(--duration)*1s) infinite linear",
+        rotateSlow: 'rotateSlow 5s linear infinite',
+        rotateFast: 'rotateFast 1s linear infinite',
       },
       shimmer: 'shimmer 1.5s infinite linear',
       boxShadow: {
