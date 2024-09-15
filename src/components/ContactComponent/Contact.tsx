@@ -1,15 +1,19 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { MotionUp } from "../assets/Animations/Motionup";
-import setupImage from '../assets/images/SetupImage.png';
+import { MotionUp } from "../../assets/Animations/Motionup";
+import setupImage from '../../assets/images/SetupImage.png';
 import { FaGithub, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
-import { getSocialLinks, sendEmail } from "../api/routes/ContactRoute";
+import { getSocialLinks, sendEmail } from "../../api/routes/ContactRoute";
 import { IoSendSharp } from "react-icons/io5";
-import { contactInfoType } from "../types/contactType";
-import { cn } from "../lib/utils";
+import { contactInfoType } from "../../types/contactType";
+import { cn } from "../../lib/utils";
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { LabelInputContainer } from "./LabelInputContainer";
+import { Label } from "./Label";
+import { Input, Textarea } from "./Input";
+import { Tooltip } from 'antd';
 
 export default function Contact() {
 
@@ -217,112 +221,83 @@ export default function Contact() {
                                     Leave your email and I will get back to you within 24 hours
                                 </h6>
 
-                                <div className="mb-4 flex flex-col space-y-2 w-full">
-                                    <label
-                                        className="text-sm font-medium text-white leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                        htmlFor="name"
-                                    >
+                                <LabelInputContainer>
+                                    <Label htmlFor="name">
                                         Name
-                                    </label>
-                                    <input
+                                    </Label>
+                                    <Input
                                         id="name"
-                                        type="text"
                                         placeholder="Amrith Gold"
-                                        className="flex w-full border-none bg-zinc-900 text-white shadow-input rounded-md px-3 py-2 text-sm 
-                                        placeholder:text-neutral-500 
-                                        focus-visible:outline-none focus-visible:ring-0
-                                        disabled:cursor-not-allowed disabled:opacity-50
-                                        group-hover:shadow-none transition duration-400"
-                                        value={contactDetails.name}
-                                        onChange={(e) => handleAddContact(e)}
-                                    />
-                                </div>
-
-                                <div className="mb-4 flex flex-col space-y-2 w-full">
-                                    <label
-                                        className="text-sm font-medium text-white leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                        htmlFor="email"
-                                    >
-                                        Email
-                                    </label>
-                                    <input
-                                        id="email"
-                                        type="email"
-                                        placeholder="goldandgold1002@gmail.com"
-                                        className="flex w-full border-none bg-zinc-900 text-white shadow-input rounded-md px-3 py-2 text-sm 
-                                        placeholder:text-neutral-500 
-                                        focus-visible:outline-none focus-visible:ring-0
-                                        disabled:cursor-not-allowed disabled:opacity-50
-                                        group-hover:shadow-none transition duration-400"
-                                        onChange={(e) => handleAddContact(e)}
-                                        value={contactDetails.email}
-                                    />
-                                </div>
-
-                                <div className="mb-4 flex flex-col space-y-2 w-full">
-                                    <label
-                                        className="text-sm font-med ium text-white leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                        htmlFor="subject"
-                                    >
-                                        Subject
-                                    </label>
-                                    <input
-                                        id="subject"
                                         type="text"
+                                        value={contactDetails.name}
+                                        onChange={(e: any) => handleAddContact(e)}
+                                    />
+                                </LabelInputContainer>
+
+                                <LabelInputContainer>
+                                    <Label htmlFor="email">
+                                        Email
+                                    </Label>
+                                    <Input
+                                        id="email"
+                                        placeholder="goldandgold1002@gmail.com"
+                                        type="email"
+                                        value={contactDetails.email}
+                                        onChange={(e: any) => handleAddContact(e)}
+                                    />
+                                </LabelInputContainer>
+
+                                <LabelInputContainer>
+                                    <Label htmlFor="subject">
+                                        Subject
+                                    </Label>
+                                    <Input
+                                        id="subject"
                                         placeholder="Want to build a website"
-                                        className="flex w-full border-none bg-zinc-900 text-white shadow-input rounded-md px-3 py-2 text-sm 
-                                        placeholder:text-neutral-500 
-                                        focus-visible:outline-none focus-visible:ring-0
-                                        disabled:cursor-not-allowed disabled:opacity-50
-                                        group-hover:shadow-none transition duration-400"
-                                        onChange={(e) => handleAddContact(e)}
+                                        type="text"
                                         value={contactDetails.subject}
+                                        onChange={(e: any) => handleAddContact(e)}
                                     />
-                                </div>
+                                </LabelInputContainer>
 
-                                <div className="mb-4 flex flex-col space-y-2 w-full">
-                                    <label
-                                        className="text-sm font-med ium text-white leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                        htmlFor="message"
-                                    >
+                                <LabelInputContainer>
+                                    <Label htmlFor="message">
                                         Message
-                                    </label>
-
-                                    <textarea
-                                        rows={3}
+                                    </Label>
+                                    <Textarea
                                         id="message"
+                                        rows={3}
+                                        className="resize-none"
                                         placeholder="Looking for a proficient software developer skilled in React and Node.js for a specific project"
-                                        className="flex w-full border-none bg-zinc-900 text-white shadow-input rounded-md px-3 py-2 text-sm 
-                                        placeholder:text-neutral-500 
-                                        focus-visible:outline-none focus-visible:ring-0
-                                        disabled:cursor-not-allowed disabled:opacity-50
-                                        group-hover:shadow-none transition duration-400 resize-none"
-                                        onChange={(e) => handleAddContact(e)}
                                         value={contactDetails.message}
+                                        onChange={(e: any) => handleAddContact(e)}
                                     />
-                                </div>
+                                </LabelInputContainer>
+                                
+                                <Tooltip title={enableSubmit && "Enter data to enable the button...😊"} placement="top">
+                                    <button
+                                        className={cn("group/btn relative h-12 w-full shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium transition-colors focus:outline-none", 
+                                        { "text-slate-500": enableSubmit, "text-slate-200": !enableSubmit,})}
+                                        type="submit"
+                                        disabled={enableSubmit}
+                                        onClick={() => {
+                                            handleSubmit()
+                                        }}
+                                    >
+                                        <span className="flex w-full justify-center items-center gap-2">
+                                            Submit 
+                                            {!enableLoader ?
+                                                <IoSendSharp />
+                                                :
+                                                <LoadingIcon />
+                                            }
+                                        </span>
+                                        {!enableSubmit &&
+                                            <BottomGradient />
+                                        }   
+                                    </button>
+                                </Tooltip>
 
-                                <button
-                                    className={cn("group/btn relative h-12 w-full shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium transition-colors focus:outline-none", 
-                                    { "text-slate-500": enableSubmit, "text-slate-200": !enableSubmit,})}
-                                    type="submit"
-                                    disabled={enableSubmit}
-                                    onClick={() => {
-                                        handleSubmit()
-                                    }}
-                                >
-                                    <span className="flex w-full justify-center items-center gap-2">
-                                        Submit 
-                                        {!enableLoader ?
-                                            <IoSendSharp />
-                                            :
-                                            <LoadingIcon />
-                                        }
-                                    </span>
-                                    {!enableSubmit &&
-                                        <BottomGradient />
-                                    }   
-                                </button>
                                 <div className="bg-gradient-to-r from-transparent via-neutral-700 to-transparent my-10 sm:my-5 h-[1px] w-full" />
                             </div>
                         </div>

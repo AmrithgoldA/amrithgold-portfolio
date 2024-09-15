@@ -3,7 +3,6 @@ import svgToDataUri from "mini-svg-data-uri";
 import { default as flattenColorPalette } from "tailwindcss/lib/util/flattenColorPalette";
 
 const config = {
-  darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -47,6 +46,9 @@ const config = {
           to: {
             backgroundPosition: "-200% 0",
           },
+          '0%': { backgroundPosition: '0 0' },
+          '100%': { backgroundPosition: '200% 0' },
+
         },
         moveHorizontal: {
           "0%": {
@@ -91,6 +93,14 @@ const config = {
             "offset-distance": "100%",
           },
         },
+        rotateSlow: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        rotateFast: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -105,9 +115,15 @@ const config = {
         scroll:
           "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
         "border-beam": "border-beam calc(var(--duration)*1s) infinite linear",
+        rotateSlow: 'rotateSlow 5s linear infinite',
+        rotateFast: 'rotateFast 1s linear infinite',
       },
+      shimmer: 'shimmer 1.5s infinite linear',
       boxShadow: {
         input: `0px 2px 3px -1px rgba(0,0,0,0.1), 0px 1px 0px 0px rgba(25,28,33,0.02), 0px 0px 0px 1px rgba(25,28,33,0.08)`,
+      },
+      colors: {
+        'custom-purple-icon': '#cbaeF9'
       },
     },
   },

@@ -1,13 +1,13 @@
 'use client'
 
-import { MotionUp } from "../assets/Animations/Motionup"
-import { TextAppearAnimation } from "../assets/Animations/TextAppearAnimation";
-import { TextHighlight } from "../assets/Animations/TextHighlight";
-import setupImage from '../assets/images/SetupImage.png';
-import profileImage from '../assets/images/profileImage.png'
+import { MotionUp } from "../../assets/Animations/Motionup"
+import { TextAppearAnimation } from "../../assets/Animations/TextAppearAnimation";
+import { TextHighlight } from "../../assets/Animations/TextHighlight";
+import setupImage from '../../assets/images/SetupImage.png';
+import profileImage from '../../assets/images/profileImage.png'
 import { FaLocationArrow, FaDownload } from "react-icons/fa6";
 import { useEffect, useState } from "react";
-import { getMediaData } from "../api/routes/FireBaseRoute";
+import { getMediaData } from "../../api/routes/FireBaseRoute";
 import { scroller } from "react-scroll";
 
 export default function LandingPage() {
@@ -38,7 +38,6 @@ export default function LandingPage() {
             smooth: "easeInOutQuart",
         });
     };
-
 
     return (
         <>
@@ -99,7 +98,7 @@ export default function LandingPage() {
                             }}
                         >
                             <div className="flex gap-8 flex-wrap lg:flex-nowrap lg:gap-16 overflow-hidden">
-                                <div className="order-2 lg:order-1 w-full  lg:w-[70%]">
+                                <div className="order-2 lg:order-1 w-full lg:w-[70%]">
                                     <h2 className="font-bold text-3xl z-20 uppercase mb-5 text-purple-300">
                                         My Journey
                                     </h2>
