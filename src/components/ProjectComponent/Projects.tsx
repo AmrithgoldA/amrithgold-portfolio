@@ -7,6 +7,7 @@ import { getMediaData } from "../../api/routes/FireBaseRoute";
 import { Modal, ModalBody, ModalContent } from "./Modal";
 import { FaEye, FaGithub } from "react-icons/fa";
 import { useModal } from "../../context/ModalProvider";
+import LazyLoad from 'react-lazyload';
 
 export default function Projects() {
 
@@ -131,13 +132,15 @@ export default function Projects() {
                                     href={item}
                                     target="_blank"
                                 >
-                                    <img
-                                        src={item}
-                                        alt={modalData.title}
-                                        height={500}
-                                        width={500}
-                                        className="rounded-lg w-full max-h-48 cursor-pointer aspect-video object-cover"
-                                    />
+                                    <LazyLoad height={500}>
+                                        <img
+                                            src={item}
+                                            alt={modalData.title}
+                                            height={500}
+                                            width={500}
+                                            className="rounded-lg w-full max-h-48 cursor-pointer aspect-video object-cover"
+                                        />
+                                    </LazyLoad>
                                 </a>
                             ))}
                         </div>
