@@ -9,6 +9,7 @@ import { getSkillsData, getCarrierDetails } from "../../api/routes/CarrierHistor
 import { getMediaData } from "../../api/routes/FireBaseRoute";
 import { MovingBorder } from "./MovingBorder";
 import { JobExperience } from "../../types/carrierType";
+import placeholderImage from "../../assets/images/broken-image-placeholder.jpg"
 
 export default function CarrerHistory() {
 
@@ -88,7 +89,7 @@ export default function CarrerHistory() {
                                         <div className="flex w-full p-4 py-6  gap-2">
                                             <img
                                                 src={experience.companylogo}
-                                                alt={experience.companyname}
+                                                alt={placeholderImage}
                                                 width={300}
                                                 height={300}
                                                 className="lg:w-20 lg:h-20 h-16 w-16 rounded-full object-cover"
@@ -177,7 +178,7 @@ export default function CarrerHistory() {
                                 <div className="flex flex-col items-center w-full gap-2">
                                     <img
                                         src={eachSkill.image}
-                                        alt={eachSkill.name}
+                                        alt={placeholderImage}
                                         width={80}
                                         height={80}
                                         className="h-16 w-16 rounded-full object-cover border border-white bg-white"

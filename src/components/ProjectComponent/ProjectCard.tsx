@@ -5,6 +5,7 @@ import { cn } from "../../lib/utils";
 import { useState } from "react";
 import { useModal } from "../../context/ModalProvider";
 import { ModalTrigger } from "./Modal";
+import placeholderImage from "../../assets/images/broken-image-placeholder.jpg"
 
 export function ProjectCard({ data }: any) {
 
@@ -24,7 +25,7 @@ export function ProjectCard({ data }: any) {
 				{data.images[0] ?
 					<img
 						src={data.images[0]}
-						alt={data.title}
+						alt={placeholderImage}
 						height={300}
 						width={500}
 						className="rounded-lg h-[180px] max-w-full mb-5"

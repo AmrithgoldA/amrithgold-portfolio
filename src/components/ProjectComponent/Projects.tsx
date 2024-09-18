@@ -8,6 +8,7 @@ import { Modal, ModalBody, ModalContent } from "./Modal";
 import { FaEye, FaGithub } from "react-icons/fa";
 import { useModal } from "../../context/ModalProvider";
 import LazyLoad from 'react-lazyload';
+import placeholderImage from "../../assets/images/broken-image-placeholder.jpg"
 
 export default function Projects() {
 
@@ -135,7 +136,7 @@ export default function Projects() {
                                     <LazyLoad height={500}>
                                         <img
                                             src={item}
-                                            alt={modalData.title}
+                                            alt={placeholderImage}
                                             height={500}
                                             width={500}
                                             className="rounded-lg w-full max-h-48 cursor-pointer aspect-video object-cover"
