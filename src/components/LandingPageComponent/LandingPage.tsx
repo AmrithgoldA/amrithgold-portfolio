@@ -9,6 +9,7 @@ import { FaLocationArrow, FaDownload } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { getMediaData } from "../../api/routes/FireBaseRoute";
 import { scroller } from "react-scroll";
+import placeholderImage from "../../assets/images/broken-image-placeholder.jpg"
 
 export default function LandingPage() {
 
@@ -113,9 +114,9 @@ export default function LandingPage() {
                                 <div className="flex justify-center order-1 lg:order-2 w-full lg:w-[27%]">
                                     <img
                                         src={profileImage}
+                                        alt={placeholderImage}
                                         width={300}
                                         height={800}
-                                        alt="profile-name"
                                         className="rounded-lg aspect-square overflow-hidden"
                                     />
                                 </div>
