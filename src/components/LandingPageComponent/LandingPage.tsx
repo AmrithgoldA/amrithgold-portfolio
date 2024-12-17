@@ -47,7 +47,7 @@ export default function LandingPage() {
                     <div className="flex flex-col items-center justify-center w-full">
                         <MotionUp delay={0}>
                             <h1 className="text-3xl md:text-6xl text-blue-100 !leading-snug text-center mx-auto font-[900]">
-                                Hi, I'm Amrith Gold, a Self Taught
+                                Hi, I'm Amrith, a Self Taught
                                 <br />
                                 <TextHighlight delay={1.8}>
                                     Software Developer
