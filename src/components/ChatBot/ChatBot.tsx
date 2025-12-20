@@ -8,15 +8,88 @@ export default function Chatbot() {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null); // Added proper type
+  const [isTyping, setIsTyping] = useState(false);
+  const [showClear, setShowClear] = useState(true);
+  const [isAtBottom, setIsAtBottom] = useState(true);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const typingTimeoutRef = useRef<NodeJS.Timeout>();
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  const checkIfAtBottom = () => {
+    if (messagesContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
+      setIsAtBottom(scrollHeight - scrollTop <= clientHeight + 50);
+    }
+  };
+
+  const scrollToBottom = (behavior: ScrollBehavior = "smooth") => {
+    if (isAtBottom && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior });
+    }
   };
 
   useEffect(() => {
-    scrollToBottom();
+    scrollToBottom("auto");
   }, [messages]);
+
+  useEffect(() => {
+    const container = messagesContainerRef.current;
+    if (container) {
+      container.addEventListener('scroll', checkIfAtBottom);
+      return () => container.removeEventListener('scroll', checkIfAtBottom);
+    }
+  }, []);
+
+  const toggleChat = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const cancelTyping = () => {
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+    setIsTyping(false);
+    setShowClear(true);
+  };
+
+  const simulateTyping = async (text: string) => {
+    setIsTyping(true);
+    let displayedText = "";
+    const words = text.split(' ');
+
+    // Set timeout to cancel typing if it takes too long (8 seconds)
+    typingTimeoutRef.current = setTimeout(() => {
+      cancelTyping();
+      setMessages(prev => [...prev.slice(0, -1), { role: "assistant", content: text }]);
+      scrollToBottom();
+    }, 8000);
+
+    try {
+      for (let i = 0; i < words.length; i++) {
+        const word = words[i];
+        const baseDelay = 30 + Math.random() * 50;
+
+        for (let j = 0; j <= word.length; j++) {
+          await new Promise(resolve => setTimeout(resolve, 10 + Math.random() * 20));
+          displayedText = words.slice(0, i).join(' ') + ' ' + word.substring(0, j);
+          setMessages(prev => [...prev.slice(0, -1), { role: "assistant", content: displayedText }]);
+          scrollToBottom();
+        }
+
+        if (/[.,!?]/.test(word)) {
+          await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100));
+        } else {
+          await new Promise(resolve => setTimeout(resolve, baseDelay));
+        }
+      }
+    } finally {
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+      setIsTyping(false);
+      setShowClear(true);
+    }
+  };
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -25,6 +98,7 @@ export default function Chatbot() {
     setMessages(prev => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
+    setShowClear(false);
 
     try {
       const res = await fetch("http://localhost:3001/portfolio/chatBot", {
@@ -36,12 +110,14 @@ export default function Chatbot() {
       });
 
       const data = await res.json();
-      setMessages(prev => [...prev, { role: "assistant", content: data.reply }]);
+      setMessages(prev => [...prev, { role: "assistant", content: "" }]);
+      await simulateTyping(data.reply);
     } catch (err) {
       setMessages(prev => [
         ...prev,
         { role: "assistant", content: "Sorry, something went wrong." },
       ]);
+      setShowClear(true);
     } finally {
       setIsLoading(false);
     }
@@ -55,115 +131,139 @@ export default function Chatbot() {
 
   return (
     <>
-      {/* Floating chat button */}
-      {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-blue-500 hover:bg-blue-600 text-white shadow-lg flex items-center justify-center z-40 transition-all duration-300 hover:scale-110"
-        >
-          <MessageCircle size={24} />
-        </button>
-      )}
+      <button
+        onClick={toggleChat}
+        className={`fixed bottom-6 right-6 w-14 h-14 rounded-full bg-[rgb(216,180,254)] hover:bg-[rgb(200,160,240)] text-[rgb(0,3,25)] shadow-lg flex items-center justify-center z-40 transition-all duration-300 hover:scale-110 ${isOpen ? "opacity-0 scale-0" : "opacity-100 scale-100"
+          }`}
+      >
+        <MessageCircle size={24} />
+      </button>
 
-      {/* Chat window */}
-      {isOpen && (
-        <div className="fixed bottom-6 right-6 w-80 rounded-2xl shadow-xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 z-50 overflow-hidden flex flex-col">
-          {/* Chat header */}
-          <div className="flex justify-between items-center p-3 bg-blue-500 text-white">
-            <h3 className="font-medium">Portfolio Assistant</h3>
-            <div className="flex space-x-2">
+      <div
+        className={`fixed bottom-6 right-6 w-80 h-[500px] rounded-2xl shadow-xl bg-[rgb(0,3,25)] border border-[rgb(216,180,254,0.2)] z-50 overflow-hidden flex flex-col transition-all duration-300 ease-in-out ${isOpen
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 translate-y-4 pointer-events-none"
+          }`}
+      >
+        <div className="flex justify-between items-center p-3 bg-[rgb(216,180,254)] text-[rgb(0,3,25)]">
+          <h3 className="font-medium">Portfolio Assistant</h3>
+          <div className="flex space-x-2">
+            {showClear && (
               <button
                 onClick={clearChat}
-                className="p-1 rounded-full hover:bg-blue-400 transition-colors"
+                className="p-1 rounded-full hover:bg-[rgb(216,180,254,0.3)] transition-colors"
                 title="Clear chat"
               >
                 <Trash2 size={16} />
               </button>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="p-1 rounded-full hover:bg-blue-400 transition-colors"
-                title="Close chat"
-              >
-                <X size={16} />
-              </button>
-            </div>
-          </div>
-
-          {/* Messages container */}
-          <div className="flex-1 p-4 overflow-y-auto" style={{ maxHeight: '400px' }}>
-            <div className="space-y-3">
-              {messages.map((msg, i) => (
-                <div
-                  key={i}
-                  className={`p-3 rounded-xl text-sm whitespace-pre-wrap max-w-[85%] ${msg.role === "user"
-                    ? "bg-blue-100 text-blue-900 ml-auto rounded-br-none"
-                    : "bg-gray-100 dark:bg-zinc-800 text-gray-800 dark:text-gray-200 rounded-bl-none"
-                    }`}
-                >
-                  {msg.content}
-                </div>
-              ))}
-              {isLoading && (
-                <div className="p-3 rounded-xl text-sm bg-gray-100 dark:bg-zinc-800 text-gray-800 dark:text-gray-200 rounded-bl-none w-[85%]">
-                  <div className="flex space-x-2">
-                    <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '300ms' }} />
-                  </div>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
-          </div>
-
-          {/* Input area */}
-          <div className="border-t border-gray-200 dark:border-zinc-700 p-3">
-            <div className="flex items-center bg-gray-100 dark:bg-zinc-800 rounded-lg px-3">
-              <input
-                type="text"
-                className="flex-1 py-2 bg-transparent focus:outline-none text-sm text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400"
-                placeholder="Type your message..."
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-              />
-              <button
-                onClick={sendMessage}
-                disabled={isLoading}
-                className="ml-2 p-1 text-blue-500 hover:text-blue-700 disabled:text-gray-400"
-              >
-                <SendHorizonal size={18} />
-              </button>
-            </div>
+            )}
+            <button
+              onClick={toggleChat}
+              className="p-1 rounded-full hover:bg-[rgb(216,180,254,0.3)] transition-colors"
+              title="Close chat"
+            >
+              <X size={16} />
+            </button>
           </div>
         </div>
-      )}
 
-      {/* Custom scrollbar styles - moved to a style tag without jsx attribute */}
+        <div
+          ref={messagesContainerRef}
+          className="flex-1 p-4 overflow-y-auto"
+          style={{ maxHeight: '400px' }}
+        >
+          <div className="space-y-3">
+            {messages.map((msg, i) => (
+              <div
+                key={i}
+                className={`p-3 rounded-xl text-sm whitespace-pre-wrap ${msg.role === "user"
+                  ? "bg-[rgb(216,180,254,0.2)] text-[rgb(219,234,254)] ml-auto rounded-br-none w-fit max-w-[85%]"
+                  : "bg-[rgb(216,180,254,0.1)] text-[rgb(216,180,254)] rounded-bl-none min-w-[120px] max-w-[85%]"
+                  }`}
+              >
+                {msg.content}
+                {msg.role === "assistant" && i === messages.length - 1 && isTyping && (
+                  <span className="typing-cursor">|</span>
+                )}
+              </div>
+            ))}
+            {isLoading && messages[messages.length - 1]?.role !== "assistant" && (
+              <div className="p-3 rounded-xl text-sm bg-[rgb(216,180,254,0.1)] text-[rgb(216,180,254)] rounded-bl-none w-[60px]">
+                <div className="flex space-x-1.5">
+                  {[...Array(3)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="w-2.5 h-2.5 rounded-full bg-[rgb(216,180,254)]"
+                      style={{
+                        animation: `wave 1.2s ease-in-out infinite`,
+                        animationDelay: `${i * 0.15}s`,
+                        opacity: 0.4
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+        </div>
+
+        <div className="border-t border-[rgb(216,180,254,0.2)] p-3">
+          <div className="flex items-center bg-[rgb(216,180,254,0.1)] rounded-lg px-3">
+            <input
+              type="text"
+              className="flex-1 py-2 bg-transparent focus:outline-none text-sm text-[rgb(219,234,254)] placeholder-[rgb(216,180,254,0.6)]"
+              placeholder="Type your message..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            />
+            <button
+              onClick={sendMessage}
+              disabled={isLoading || isTyping}
+              className="ml-2 p-1 text-[rgb(216,180,254)] hover:text-[rgb(219,234,254)] disabled:text-[rgb(216,180,254,0.4)] disabled:cursor-not-allowed"
+            >
+              <SendHorizonal size={18} />
+            </button>
+          </div>
+        </div>
+      </div>
+
       <style>
         {`
           .overflow-y-auto::-webkit-scrollbar {
-            width: 6px;
+            width: 4px;
           }
           .overflow-y-auto::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: 3px;
+            background: rgba(216, 180, 254, 0.05);
+            border-radius: 2px;
           }
           .overflow-y-auto::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 3px;
+            background: rgba(216, 180, 254, 0.2);
+            border-radius: 2px;
           }
           .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(216, 180, 254, 0.3);
           }
-          .dark .overflow-y-auto::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
+          @keyframes wave {
+            0%, 60%, 100% { 
+              transform: translateY(0);
+              opacity: 0.4;
+            }
+            30% { 
+              transform: translateY(-5px);
+              opacity: 1;
+            }
           }
-          .dark .overflow-y-auto::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
+          .typing-cursor {
+            display: inline-block;
+            margin-left: 2px;
+            animation: blink 0.7s infinite;
+            color: rgb(216, 180, 254);
           }
-          .dark .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.3);
+          @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
           }
         `}
       </style>
