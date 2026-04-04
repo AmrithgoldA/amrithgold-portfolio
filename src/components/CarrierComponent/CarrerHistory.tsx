@@ -6,7 +6,7 @@ import Marquee from "react-fast-marquee";
 import { MagicCard } from "../../assets/Animations/MagicCard";
 import { useEffect, useState } from "react";
 import { getSkillsData, getCarrierDetails } from "../../api/routes/CarrierHistoryRoute";
-import { getMediaData } from "../../api/routes/FireBaseRoute";
+import { getLocalImage } from "../../lib/getLocalAsset";
 import { MovingBorder } from "./MovingBorder";
 import { JobExperience } from "../../types/carrierType";
 import placeholderImage from "../../assets/images/broken-image-placeholder.jpg"
@@ -37,12 +37,10 @@ export default function CarrerHistory() {
 
         const userSkillsResponse: any = await getSkillsData()
 
-        const updatedSkillsArray: any = await Promise.all(
-            userSkillsResponse.data.map(async (eachFile: any) => {
-                const skillImageResponse: any = await getMediaData(eachFile.firebase_file_name);
-                return { ...eachFile, image: skillImageResponse };
-            })
-        );
+        const updatedSkillsArray: any = userSkillsResponse.data.map((eachFile: any) => {
+            const skillImage = getLocalImage(eachFile.firebase_file_name);
+            return { ...eachFile, image: skillImage };
+        });
 
         setUserSkillsData(updatedSkillsArray)
     }
@@ -50,12 +48,10 @@ export default function CarrerHistory() {
     const getCarrierData = async () => {
         const userCarrierList: any = await getCarrierDetails()
 
-        const updatedCarrierList: JobExperience[] = await Promise.all(
-            userCarrierList.data.map(async (eachList: JobExperience) => {
-                const companyLogoResponse: string | undefined = await getMediaData(eachList.companylogo);
-                return { ...eachList, companylogo: companyLogoResponse }
-            })
-        )
+        const updatedCarrierList: JobExperience[] = userCarrierList.data.map((eachList: JobExperience) => {
+            const companyLogo = getLocalImage(eachList.companylogo);
+            return { ...eachList, companylogo: companyLogo || eachList.companylogo }
+        });
 
         setUserCarrierData(updatedCarrierList)
     }
@@ -123,38 +119,38 @@ export default function CarrerHistory() {
                                 ))}
                             </div>
                         ) : (
-                                <div className="flex flex-col gap-6">
-                                    <MovingBorder
-                                        borderRadius="1rem"
-                                        style={{
-                                            borderRadius: `calc(1rem* 0.96)`,
-                                        }}
-                                        className="border flex-1 rounded-3xl text-blue-100 border-slate-800"
-                                    >
-                                        <div className="flex w-full p-4 py-6 gap-2">
-                                            <div className="pt-3 h-[5rem] w-[5rem] rounded-full mr-2">
-                                                <div className="h-[5rem] w-[5rem] rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
-                                            </div>
-                                            <div className="relative w-full space-y-3 overflow-hidden rounded-md p-3 shadow before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r">
-                                                <div className="space-y-3">
-                                                    <div className="space-y-1">
-                                                        <div className="h-6 w-full rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
-                                                        <div className="flex gap-2 !my-3">
-                                                            <div className="h-5 w-[6rem] rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
-                                                            <div className="h-5 w-[6rem] rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
-                                                        </div>
-                                                        <div className="h-4 w-full rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
-                                                        <div className="h-4 w-full rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
-                                                        <div className="h-4 w-full rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
-                                                        <div className="h-4 w-full rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
-                                                        <div className="h-4 w-7/12 rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
+                            <div className="flex flex-col gap-6">
+                                <MovingBorder
+                                    borderRadius="1rem"
+                                    style={{
+                                        borderRadius: `calc(1rem* 0.96)`,
+                                    }}
+                                    className="border flex-1 rounded-3xl text-blue-100 border-slate-800"
+                                >
+                                    <div className="flex w-full p-4 py-6 gap-2">
+                                        <div className="pt-3 h-[5rem] w-[5rem] rounded-full mr-2">
+                                            <div className="h-[5rem] w-[5rem] rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
+                                        </div>
+                                        <div className="relative w-full space-y-3 overflow-hidden rounded-md p-3 shadow before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r">
+                                            <div className="space-y-3">
+                                                <div className="space-y-1">
+                                                    <div className="h-6 w-full rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
+                                                    <div className="flex gap-2 !my-3">
+                                                        <div className="h-5 w-[6rem] rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
+                                                        <div className="h-5 w-[6rem] rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
                                                     </div>
+                                                    <div className="h-4 w-full rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
+                                                    <div className="h-4 w-full rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
+                                                    <div className="h-4 w-full rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
+                                                    <div className="h-4 w-full rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
+                                                    <div className="h-4 w-7/12 rounded-full bg-neutral-600 shadow bg-gradient-to-r from-neutral-600 via-neutral-400 to-neutral-600 bg-[length:200%_100%] animate-shimmer"></div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </MovingBorder>
-                                </div>
-                            )
+                                    </div>
+                                </MovingBorder>
+                            </div>
+                        )
                         }
                     </div>
                 </MotionUp>

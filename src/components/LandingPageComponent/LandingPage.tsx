@@ -6,30 +6,15 @@ import { TextHighlight } from "../../assets/Animations/TextHighlight";
 import setupImage from '../../assets/images/SetupImage.png';
 import profileImage from '../../assets/images/profileImage.png'
 import { FaLocationArrow, FaDownload } from "react-icons/fa6";
-import { useEffect, useState } from "react";
-import { getMediaData } from "../../api/routes/FireBaseRoute";
+import resumePdf from '../../assets/pdf/Amrith Gold.pdf';
+
 import { scroller } from "react-scroll";
 import placeholderImage from "../../assets/images/broken-image-placeholder.jpg"
 
 export default function LandingPage() {
 
-    const [mediaFile, setMediafile] = useState("");
-
-    useEffect(() => {
-
-        getProfilePic()
-
-    }, []);
-
-    const getProfilePic = async () => {
-        const profilePicResponse: any = await getMediaData('Amrith Gold resume.pdf')
-        setMediafile(profilePicResponse)
-    }
-
     const handleResumeDownload = () => {
-        if (mediaFile) {
-            window.open(mediaFile, '_blank');
-        }
+        window.open(resumePdf, '_blank');
     }
 
     const scrollToDiv = () => {

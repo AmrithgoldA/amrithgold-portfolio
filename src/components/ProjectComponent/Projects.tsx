@@ -3,7 +3,7 @@ import { MotionUp } from "../../assets/Animations/Motionup";
 import { getProjectsDetails } from "../../api/routes/ProjectRoute";
 import { Project } from "../../types/Project";
 import { ProjectCard } from "./ProjectCard";
-import { getMediaData } from "../../api/routes/FireBaseRoute";
+import { getLocalImage } from "../../lib/getLocalAsset";
 import { Modal, ModalBody, ModalContent } from "./Modal";
 import { FaEye, FaGithub } from "react-icons/fa";
 import { useModal } from "../../context/ModalProvider";
@@ -36,18 +36,13 @@ export default function Projects() {
     const projectDetails = async () => {
         const response: any = await getProjectsDetails();
 
-        const updatedProjectDetails: any = await Promise.all(
-            response.data.map(async (eachFile: any) => {
-                const updatedImages: any = await Promise.all(
-                    eachFile.images.map(async (image: string) => {
-                        const skillImageResponse: any = await getMediaData(image);
-                        return skillImageResponse;
-                    })
-                );
+        const updatedProjectDetails: any = response.data.map((eachFile: any) => {
+            const updatedImages: any = eachFile.images.map((image: string) => {
+                return getLocalImage(image) || image;
+            });
 
-                return { ...eachFile, images: updatedImages };
-            })
-        );
+            return { ...eachFile, images: updatedImages };
+        });
 
         setProjectDetail(updatedProjectDetails);
     };
