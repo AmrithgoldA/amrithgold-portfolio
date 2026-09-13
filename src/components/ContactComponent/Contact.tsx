@@ -78,11 +78,16 @@ export default function Contact() {
             }
         );
     
-        const response = await promise
+        try {
+            const response = await promise
 
-        if(response && response.status === 200) {
+            if(response && response.status === 200) {
+                setContactDetails({...contactObject});
+            }
+        } catch {
+            // toast.promise already shows the error message
+        } finally {
             setEnableLoader(false)
-            setContactDetails({...contactObject});
         }
         
     }

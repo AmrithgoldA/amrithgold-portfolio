@@ -101,6 +101,38 @@ const config = {
           '0%': { transform: 'rotate(0deg)' },
           '100%': { transform: 'rotate(360deg)' },
         },
+        ripple3d: {
+          '0%': {
+            transform: 'translate(-50%, -50%) rotateX(72deg) scale(0.35)',
+            opacity: '0',
+          },
+          '15%': { opacity: '1' },
+          '100%': {
+            transform: 'translate(-50%, -50%) rotateX(72deg) scale(2.6)',
+            opacity: '0',
+          },
+        },
+        haloPulse: {
+          '0%, 100%': { opacity: '0.5', transform: 'translate(-50%, -50%) scale(1)' },
+          '50%': { opacity: '0.72', transform: 'translate(-50%, -50%) scale(1.08)' },
+        },
+        // Grows via width/height, not scale, so the border stays a crisp 2px
+        // instead of being blown up into a thick blurry band.
+        rippleBurst: {
+          '0%': {
+            width: '6rem',
+            height: '6rem',
+            opacity: '1',
+            transform: 'translate(-50%, -50%) rotateX(72deg)',
+          },
+          '70%': { opacity: '0.35' },
+          '100%': {
+            width: '220vmax',
+            height: '220vmax',
+            opacity: '0',
+            transform: 'translate(-50%, -50%) rotateX(0deg)',
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -117,6 +149,9 @@ const config = {
         "border-beam": "border-beam calc(var(--duration)*1s) infinite linear",
         rotateSlow: 'rotateSlow 5s linear infinite',
         rotateFast: 'rotateFast 1s linear infinite',
+        ripple3d: 'ripple3d 4.5s cubic-bezier(0, 0, 0.2, 1) infinite',
+        haloPulse: 'haloPulse 9s ease-in-out infinite',
+        rippleBurst: 'rippleBurst 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards',
       },
       shimmer: 'shimmer 1.5s infinite linear',
       boxShadow: {

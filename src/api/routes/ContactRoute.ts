@@ -15,6 +15,7 @@ async function sendEmail(contactDetails: contactInfoType) {
 
     } catch (error) {
         console.error('An error occurred:', error);
+        throw error;
     }
 
 }
