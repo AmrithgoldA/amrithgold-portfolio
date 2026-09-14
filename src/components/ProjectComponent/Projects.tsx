@@ -8,7 +8,7 @@ import { Modal, ModalBody, ModalContent } from "./Modal";
 import { FaEye, FaGithub } from "react-icons/fa";
 import { useModal } from "../../context/ModalProvider";
 import LazyLoad from 'react-lazyload';
-import placeholderImage from "../../assets/images/broken-image-placeholder.jpg"
+import { ProjectImage } from "./ProjectImage";
 
 export default function Projects() {
 
@@ -43,6 +43,9 @@ export default function Projects() {
 
             return { ...eachFile, images: updatedImages };
         });
+
+        // Lower priority value shows first (priority comes back from Postgres as a string)
+        updatedProjectDetails.sort((a: Project, b: Project) => Number(a.priority) - Number(b.priority));
 
         setProjectDetail(updatedProjectDetails);
     };
@@ -129,12 +132,10 @@ export default function Projects() {
                                     target="_blank"
                                 >
                                     <LazyLoad height={500}>
-                                        <img
+                                        <ProjectImage
                                             src={item}
-                                            alt={placeholderImage}
-                                            height={500}
-                                            width={500}
-                                            className="rounded-lg w-full max-h-48 cursor-pointer aspect-video object-cover"
+                                            alt={modalData?.title ?? "Project screenshot"}
+                                            className="w-full max-h-48 aspect-video cursor-pointer"
                                         />
                                     </LazyLoad>
                                 </a>

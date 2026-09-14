@@ -5,7 +5,7 @@ import { cn } from "../../lib/utils";
 import { useState } from "react";
 import { useModal } from "../../context/ModalProvider";
 import { ModalTrigger } from "./Modal";
-import placeholderImage from "../../assets/images/broken-image-placeholder.jpg"
+import { ImagePlaceholder, ProjectImage } from "./ProjectImage";
 
 export function ProjectCard({ data }: any) {
 
@@ -22,16 +22,17 @@ export function ProjectCard({ data }: any) {
 			className="!w-full flex justify-center h-[360px]"
 		>
 			<div className="tracking-tight text-blue-100">
-				{data.images[0] ?
-					<img
+				{data.title ?
+					<ProjectImage
 						src={data.images[0]}
-						alt={placeholderImage}
-						height={300}
-						width={500}
-						className="rounded-lg h-[180px] max-w-full mb-5"
+						alt={data.title}
+						className="h-[180px] w-full mb-5"
 					/>
 					:
-					<div className="h-[11.25rem] w-[18.75rem] bg-neutral-300/30 rounded-md mb-5 backdrop-blur-md"></div>
+					// Projects still loading from the API
+					<div className="relative h-[180px] w-full mb-5 overflow-hidden rounded-lg">
+						<ImagePlaceholder />
+					</div>
 				}
 				<h3 className="line-clamp-1 max-w-xs !pb-2 !m-0 font-bold  text-base text-blue-100">
 					{data.title}

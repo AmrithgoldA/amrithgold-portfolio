@@ -178,10 +178,10 @@ export default function Contact() {
                                         EMAIL
                                     </h6>
                                     <a
-                                        href={`mailto:amrithgold1002@gmail.com`}
+                                        href={`mailto:goldandgold1002@gmail.com`}
                                         className="text-blue-100 leading-relaxed"
                                     >
-                                        amrithgold1002@gmail.com
+                                        goldandgold1002@gmail.com
                                     </a>
                                 </div>
 
