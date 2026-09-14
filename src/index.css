@@ -36,3 +36,14 @@ html {
 ::-webkit-scrollbar-corner {
     background: rgb(0, 3, 25);
 }
+
+/* Hide scrollbar but keep scrolling (swipe carousels) */
+@layer utilities {
+    .no-scrollbar {
+        scrollbar-width: none;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+}

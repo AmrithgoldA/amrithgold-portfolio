@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { cn } from "../../lib/utils";
 import { MotionUp } from "../../assets/Animations/Motionup";
 import { getProjectsDetails } from "../../api/routes/ProjectRoute";
 import { Project } from "../../types/Project";
@@ -24,6 +25,8 @@ export default function Projects() {
 
     const [projectDetail, setProjectDetail] = useState<Project[]>([projectDetailObj])
     const [initialCount, setInitialCount] = useState<number>(3)
+    const [activeSlide, setActiveSlide] = useState<number>(0)
+    const carouselRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         projectDetails();
@@ -31,6 +34,25 @@ export default function Projects() {
 
     function handleShowMore() {
         setInitialCount(initialCount + 3)
+    }
+
+    // Mobile carousel: one slide per view, so the centered slide is scroll / (slide width + gap)
+    function getSlideStep() {
+        const carousel = carouselRef.current;
+        const slide = carousel?.firstElementChild as HTMLElement | null;
+        if (!carousel || !slide) return 0;
+        return slide.offsetWidth + (parseFloat(getComputedStyle(carousel).columnGap) || 0);
+    }
+
+    function handleCarouselScroll() {
+        const step = getSlideStep();
+        if (step && carouselRef.current) {
+            setActiveSlide(Math.round(carouselRef.current.scrollLeft / step));
+        }
+    }
+
+    function scrollToSlide(index: number) {
+        carouselRef.current?.scrollTo({ left: index * getSlideStep(), behavior: "smooth" });
     }
 
     const projectDetails = async () => {
@@ -57,14 +79,43 @@ export default function Projects() {
                     <h2 className="text-center font-bold text-3xl text-blue-100 relative z-20">
                         Explore My Latest Projects
                     </h2>
-                    <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                        {projectDetail.slice(0, initialCount).map((eachProject: Project, index: any) => (
-                            <ProjectCard key={index} data={eachProject} />
+                    {/* Mobile: swipeable carousel with every project. md and up: grid paged by Load More */}
+                    <div
+                        ref={carouselRef}
+                        onScroll={handleCarouselScroll}
+                        className="mt-10 flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-10 md:overflow-visible md:snap-none"
+                    >
+                        {projectDetail.map((eachProject: Project, index: number) => (
+                            <div
+                                key={index}
+                                className={cn(
+                                    // pb-6: the card sits slightly below its 400px trigger, keep its bottom border inside the clip
+                                    "w-full shrink-0 snap-center overflow-hidden pb-6 md:overflow-visible md:pb-0",
+                                    index >= initialCount && "md:hidden"
+                                )}
+                            >
+                                <ProjectCard data={eachProject} />
+                            </div>
                         ))}
                     </div>
-                    {(projectDetail.length > 3 && projectDetail.length !== initialCount) &&  (
+                    {projectDetail.length > 1 && (
+                        <div className="mt-4 flex justify-center gap-2 md:hidden">
+                            {projectDetail.map((_, index) => (
+                                <button
+                                    key={index}
+                                    aria-label={`Go to project ${index + 1}`}
+                                    onClick={() => scrollToSlide(index)}
+                                    className={cn(
+                                        "h-2 rounded-full transition-all duration-300",
+                                        index === activeSlide ? "w-6 bg-blue-100" : "w-2 bg-slate-600"
+                                    )}
+                                />
+                            ))}
+                        </div>
+                    )}
+                    {initialCount < projectDetail.length && (
                         <button
-                            className='mx-auto !block mt-12 cursor-pointer relative h-12 md:w-60 overflow-hidden rounded-lg p-[2px] focus:outline-none text-lg'
+                            className='mx-auto hidden md:!block mt-12 cursor-pointer relative h-12 md:w-60 overflow-hidden rounded-lg p-[2px] focus:outline-none text-lg'
                             onClick={() => handleShowMore()}
                         >
                             <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
