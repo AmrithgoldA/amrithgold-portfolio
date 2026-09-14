@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import { cn } from "../../lib/utils";
+import { useEffect, useState } from "react";
+import { Carousel_002 } from "@/components/ui/skiper-ui/skiper48";
+import { ProjectSlide } from "./ProjectSlide";
 import { MotionUp } from "../../assets/Animations/Motionup";
 import { getProjectsDetails } from "../../api/routes/ProjectRoute";
 import { Project } from "../../types/Project";
@@ -13,7 +14,7 @@ import { ProjectImage } from "./ProjectImage";
 
 export default function Projects() {
 
-    const { modalData } = useModal();
+    const { modalData, setModalData, setOpen } = useModal();
 
     const projectDetailObj: Project = {
         title: "",
@@ -25,8 +26,6 @@ export default function Projects() {
 
     const [projectDetail, setProjectDetail] = useState<Project[]>([projectDetailObj])
     const [initialCount, setInitialCount] = useState<number>(3)
-    const [activeSlide, setActiveSlide] = useState<number>(0)
-    const carouselRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         projectDetails();
@@ -36,23 +35,9 @@ export default function Projects() {
         setInitialCount(initialCount + 3)
     }
 
-    // Mobile carousel: one slide per view, so the centered slide is scroll / (slide width + gap)
-    function getSlideStep() {
-        const carousel = carouselRef.current;
-        const slide = carousel?.firstElementChild as HTMLElement | null;
-        if (!carousel || !slide) return 0;
-        return slide.offsetWidth + (parseFloat(getComputedStyle(carousel).columnGap) || 0);
-    }
-
-    function handleCarouselScroll() {
-        const step = getSlideStep();
-        if (step && carouselRef.current) {
-            setActiveSlide(Math.round(carouselRef.current.scrollLeft / step));
-        }
-    }
-
-    function scrollToSlide(index: number) {
-        carouselRef.current?.scrollTo({ left: index * getSlideStep(), behavior: "smooth" });
+    function openProject(project: Project) {
+        setModalData(project);
+        setOpen(true);
     }
 
     const projectDetails = async () => {
@@ -79,40 +64,23 @@ export default function Projects() {
                     <h2 className="text-center font-bold text-3xl text-blue-100 relative z-20">
                         Explore My Latest Projects
                     </h2>
-                    {/* Mobile: swipeable carousel with every project. md and up: grid paged by Load More */}
-                    <div
-                        ref={carouselRef}
-                        onScroll={handleCarouselScroll}
-                        className="mt-10 flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-10 md:overflow-visible md:snap-none"
-                    >
-                        {projectDetail.map((eachProject: Project, index: number) => (
-                            <div
-                                key={index}
-                                className={cn(
-                                    // pb-6: the card sits slightly below its 400px trigger, keep its bottom border inside the clip
-                                    "w-full shrink-0 snap-center overflow-hidden pb-6 md:overflow-visible md:pb-0",
-                                    index >= initialCount && "md:hidden"
-                                )}
-                            >
-                                <ProjectCard data={eachProject} />
-                            </div>
+                    {/* Mobile: swipeable card deck (skiper48) with every project */}
+                    <div className="mt-10 overflow-hidden md:hidden [--swiper-pagination-color:#dbeafe] [--swiper-pagination-bullet-inactive-color:#475569] [--swiper-pagination-bullet-inactive-opacity:1]">
+                        <Carousel_002
+                            loop={false}
+                            showPagination={projectDetail.length > 1}
+                            swiperClassName="mx-auto h-[470px] w-[280px]"
+                            slides={projectDetail.map((eachProject: Project) => (
+                                <ProjectSlide project={eachProject} onOpen={openProject} />
+                            ))}
+                        />
+                    </div>
+                    {/* md and up: grid paged by Load More */}
+                    <div className="mt-10 hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                        {projectDetail.slice(0, initialCount).map((eachProject: Project, index: number) => (
+                            <ProjectCard key={index} data={eachProject} />
                         ))}
                     </div>
-                    {projectDetail.length > 1 && (
-                        <div className="mt-4 flex justify-center gap-2 md:hidden">
-                            {projectDetail.map((_, index) => (
-                                <button
-                                    key={index}
-                                    aria-label={`Go to project ${index + 1}`}
-                                    onClick={() => scrollToSlide(index)}
-                                    className={cn(
-                                        "h-2 rounded-full transition-all duration-300",
-                                        index === activeSlide ? "w-6 bg-blue-100" : "w-2 bg-slate-600"
-                                    )}
-                                />
-                            ))}
-                        </div>
-                    )}
                     {initialCount < projectDetail.length && (
                         <button
                             className='mx-auto hidden md:!block mt-12 cursor-pointer relative h-12 md:w-60 overflow-hidden rounded-lg p-[2px] focus:outline-none text-lg'
