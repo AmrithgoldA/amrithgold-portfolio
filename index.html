@@ -11,11 +11,235 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="canonical" href="https://amrith-gold.netlify.app/" />
 	<link rel="alternate" href="https://amrith-gold.netlify.app/" hreflang="en">
-	<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+	<!-- loaded without blocking first paint, so the boot loader shows immediately -->
+	<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+	<noscript>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap">
+	</noscript>
+	<style>
+		/*
+		 * Boot loader - plain CSS so it paints before any JS or the CSS bundle
+		 * loads. LoaderGate adds .is-expanding to play the exit, then removes it.
+		 */
+		html,
+		body {
+			background-color: rgb(0, 3, 25);
+		}
+
+		#boot-loader {
+			position: fixed;
+			inset: 0;
+			z-index: 120;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			overflow: hidden;
+		}
+
+		#boot-loader.is-expanding {
+			pointer-events: none;
+		}
+
+		/* backdrop dissolves so the page shows through */
+		.boot-backdrop {
+			position: absolute;
+			inset: 0;
+			background-color: rgb(0, 3, 25);
+			transition: opacity 900ms ease-out;
+		}
+
+		.is-expanding .boot-backdrop {
+			opacity: 0;
+		}
+
+		.boot-stage {
+			position: relative;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 14rem;
+			height: 14rem;
+			perspective: 600px;
+			transform-style: preserve-3d;
+		}
+
+		.boot-halo,
+		.boot-glow,
+		.boot-ring {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			border-radius: 9999px;
+			transform: translate(-50%, -50%);
+		}
+
+		/* blurred halo - fades out fast so it never veils the page */
+		.boot-halo {
+			width: 7rem;
+			height: 7rem;
+			background-color: #cbaef9;
+			filter: blur(64px);
+			transition: opacity 500ms ease-out;
+			animation: boot-halo-pulse 4.5s ease-in-out infinite;
+		}
+
+		.boot-glow {
+			width: 5rem;
+			height: 5rem;
+			background-color: #393BB2;
+			filter: blur(40px);
+			opacity: 0.6;
+			transition: opacity 500ms ease-out;
+		}
+
+		.is-expanding .boot-halo {
+			animation: none;
+			opacity: 0;
+		}
+
+		.is-expanding .boot-glow {
+			opacity: 0;
+		}
+
+		/* 3d ripple rings - they flatten out and expand past the viewport on exit */
+		.boot-ring {
+			box-sizing: border-box;
+			width: 6rem;
+			height: 6rem;
+			border: 2px solid #cbaef9;
+			box-shadow: 0 0 20px 2px rgba(203, 174, 249, 0.45);
+			animation: boot-ripple 4.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+		}
+
+		.boot-ring-2 {
+			animation-delay: -1.5s;
+		}
+
+		.boot-ring-3 {
+			animation-delay: -3s;
+		}
+
+		.is-expanding .boot-ring {
+			box-shadow: none;
+			animation: boot-ripple-burst 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+		}
+
+		.is-expanding .boot-ring-2 {
+			animation-delay: 0.18s;
+		}
+
+		.is-expanding .boot-ring-3 {
+			animation-delay: 0.36s;
+		}
+
+		/* spinning core */
+		.boot-core {
+			position: relative;
+			box-sizing: border-box;
+			width: 5rem;
+			height: 5rem;
+			padding: 2px;
+			overflow: hidden;
+			border-radius: 9999px;
+			transition: all 500ms ease-in;
+		}
+
+		.is-expanding .boot-core {
+			transform: scale(0);
+			opacity: 0;
+		}
+
+		.boot-core-spin {
+			position: absolute;
+			inset: -1000%;
+			background: conic-gradient(from 90deg at 50% 50%, #E2CBFF 0%, #393BB2 50%, #E2CBFF 100%);
+			animation: boot-spin 3.5s linear infinite;
+		}
+
+		.boot-core-inner {
+			position: relative;
+			display: block;
+			width: 100%;
+			height: 100%;
+			border-radius: 9999px;
+			background-color: #020617;
+		}
+
+		@keyframes boot-spin {
+			to {
+				transform: rotate(360deg);
+			}
+		}
+
+		@keyframes boot-halo-pulse {
+
+			0%,
+			100% {
+				opacity: 0.45;
+				transform: translate(-50%, -50%) scale(1);
+			}
+
+			50% {
+				opacity: 0.8;
+				transform: translate(-50%, -50%) scale(1.15);
+			}
+		}
+
+		@keyframes boot-ripple {
+			0% {
+				transform: translate(-50%, -50%) rotateX(72deg) scale(0.35);
+				opacity: 0;
+			}
+
+			15% {
+				opacity: 1;
+			}
+
+			100% {
+				transform: translate(-50%, -50%) rotateX(72deg) scale(2.6);
+				opacity: 0;
+			}
+		}
+
+		/* Grows via width/height, not scale, so the border stays a crisp 2px */
+		@keyframes boot-ripple-burst {
+			0% {
+				width: 6rem;
+				height: 6rem;
+				opacity: 1;
+				transform: translate(-50%, -50%) rotateX(72deg);
+			}
+
+			70% {
+				opacity: 0.35;
+			}
+
+			100% {
+				width: 220vmax;
+				height: 220vmax;
+				opacity: 0;
+				transform: translate(-50%, -50%) rotateX(0deg);
+			}
+		}
+	</style>
 </head>
 
 <body>
 	<div id="root"></div>
+	<div id="boot-loader" role="status" aria-live="polite" aria-label="Loading">
+		<span class="boot-backdrop"></span>
+		<div class="boot-stage">
+			<span class="boot-halo"></span>
+			<span class="boot-glow"></span>
+			<span class="boot-ring"></span>
+			<span class="boot-ring boot-ring-2"></span>
+			<span class="boot-ring boot-ring-3"></span>
+			<div class="boot-core">
+				<span class="boot-core-spin"></span>
+				<span class="boot-core-inner"></span>
+			</div>
+		</div>
+	</div>
 	<script type="module" src="/src/main.tsx"></script>
 </body>
 

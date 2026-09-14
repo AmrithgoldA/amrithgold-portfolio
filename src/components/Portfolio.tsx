@@ -1,25 +1,33 @@
-import { lazy } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
+import { whenIdle } from "../lib/whenIdle";
 
-// Start every section download as soon as this module loads, so they finish
-// while the intro loader is still on screen.
+// Starts downloading as soon as this module loads, so the hero is ready when the loader lifts.
 const landingPageModule = import("./LandingPageComponent/LandingPage");
-const carrerHistoryModule = import("./CarrierComponent/CarrerHistory");
-const projectsModule = import("./ProjectComponent/Projects");
-const contactModule = import("./ContactComponent/Contact");
-
 const LandingPage = lazy(() => landingPageModule);
-const CarrerHistory = lazy(() => carrerHistoryModule);
-const Projects = lazy(() => projectsModule);
-const Contact = lazy(() => contactModule);
+
+// Below the fold: fetched once the hero is up, so their libraries (Framer Motion,
+// Swiper, toasts) don't compete with the first screen.
+const CarrerHistory = lazy(() => import("./CarrierComponent/CarrerHistory"));
+const Projects = lazy(() => import("./ProjectComponent/Projects"));
+const Contact = lazy(() => import("./ContactComponent/Contact"));
 
 export default function Portfolio() {
+
+    const [showSections, setShowSections] = useState(false);
+
+    useEffect(() => whenIdle(() => setShowSections(true)), []);
 
     return (
         <>
             <LandingPage />
-            <CarrerHistory />
-            <Projects />
-            <Contact />
+            {/* own boundary: while these load, the hero above stays on screen */}
+            {showSections && (
+                <Suspense fallback={null}>
+                    <CarrerHistory />
+                    <Projects />
+                    <Contact />
+                </Suspense>
+            )}
         </>
     )
 };

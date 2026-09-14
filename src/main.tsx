@@ -12,7 +12,7 @@ const App = lazy(() => appModule);
 // mount a second full-screen loader over the expanding one and flash its glow.
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <LoaderGate duration={3000} expandDuration={2200}>
+    <LoaderGate duration={2000} expandDuration={2200}>
       <Suspense fallback={null}>
         <App />
       </Suspense>

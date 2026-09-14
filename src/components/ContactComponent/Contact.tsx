@@ -13,7 +13,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { LabelInputContainer } from "./LabelInputContainer";
 import { Label } from "./Label";
 import { Input, Textarea } from "./Input";
-import { Tooltip } from 'antd';
 
 export default function Contact() {
 
@@ -279,7 +278,8 @@ export default function Contact() {
                                     />
                                 </LabelInputContainer>
                                 
-                                <Tooltip title={enableSubmit && "Enter data to enable the button...😊"} placement="top">
+                                {/* hover hint while disabled - the wrapper owns the hover, since a disabled button gets no mouse events */}
+                                <div className="group/tip relative">
                                     <button
                                         className={cn("group/btn relative h-12 w-full shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium transition-colors focus:outline-none", 
                                         { "text-slate-500": enableSubmit, "text-slate-200": !enableSubmit,})}
@@ -299,9 +299,18 @@ export default function Contact() {
                                         </span>
                                         {!enableSubmit &&
                                             <BottomGradient />
-                                        }   
+                                        }
                                     </button>
-                                </Tooltip>
+                                    {enableSubmit && (
+                                        <span
+                                            role="tooltip"
+                                            className="pointer-events-none absolute bottom-full left-1/2 mb-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/85 px-2 py-1.5 text-sm text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover/tip:opacity-100"
+                                        >
+                                            Enter data to enable the button...😊
+                                            <span className="absolute left-1/2 top-full -translate-x-1/2 border-[5px] border-transparent border-t-black/85" />
+                                        </span>
+                                    )}
+                                </div>
 
                                 <div className="bg-gradient-to-r from-transparent via-neutral-700 to-transparent my-10 sm:my-5 h-[1px] w-full" />
                             </div>

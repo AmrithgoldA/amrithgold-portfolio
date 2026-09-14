@@ -51,6 +51,8 @@ export function ProjectImage({ src, alt, className, imgClassName }: ProjectImage
                 <img
                     src={src}
                     alt={alt}
+                    loading="lazy"
+                    decoding="async"
                     onLoad={() => setStatus("loaded")}
                     onError={() => setStatus("error")}
                     className={cn(

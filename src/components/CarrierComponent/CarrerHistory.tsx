@@ -1,6 +1,5 @@
 import { AnimationLottie } from "../../assets/Animations/AnimationLottie";
 import { MotionUp } from "../../assets/Animations/Motionup";
-import expLottie from "../../assets/lotte-animation/experience.json";
 import { formatDate } from "../../lib/utils";
 import Marquee from "react-fast-marquee";
 import { MagicCard } from "../../assets/Animations/MagicCard";
@@ -11,6 +10,9 @@ import { MovingBorder } from "./MovingBorder";
 import { JobExperience } from "../../types/carrierType";
 import placeholderImage from "../../assets/images/broken-image-placeholder.jpg"
 import { CLEAR_ENTRANCE, MOTION_OK, gsap, useGSAP, useHeadingReveal } from "../../lib/gsap";
+
+// ~260 kB of JSON, so it is only fetched when the animation scrolls near the viewport
+const loadExperienceAnimation = () => import("../../assets/lotte-animation/experience.json");
 
 const DOT_LIT = {
     backgroundColor: "#cbaef9",
@@ -137,7 +139,7 @@ export default function CarrerHistory() {
                     <div className="flex justify-center items-start">
                         {/* stays in view beside the job list on large screens */}
                         <div className="w-full lg:sticky lg:top-24">
-                            <AnimationLottie animationData={expLottie} />
+                            <AnimationLottie loadAnimation={loadExperienceAnimation} />
                         </div>
                     </div>
 
@@ -169,6 +171,8 @@ export default function CarrerHistory() {
                                                     alt={placeholderImage}
                                                     width={300}
                                                     height={300}
+                                                    loading="lazy"
+                                                    decoding="async"
                                                     className="gsap-career-logo lg:w-20 lg:h-20 h-16 w-16 rounded-full object-cover"
                                                 />
                                                 <div className="ms-2 sm:ms-5">
@@ -259,6 +263,8 @@ export default function CarrerHistory() {
                                         alt={placeholderImage}
                                         width={80}
                                         height={80}
+                                        loading="lazy"
+                                        decoding="async"
                                         className="h-16 w-16 rounded-full object-cover border border-white bg-white"
                                     />
                                     <h6 className="text-start text-lg font-bold text-blue-100">
