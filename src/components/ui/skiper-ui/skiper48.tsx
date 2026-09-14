@@ -79,6 +79,7 @@ const Carousel_002 = ({
   loop = true,
   autoplay = false,
   spaceBetween = 40,
+  animateIn = true,
 }: {
   images?: { src: string; alt: string }[];
   /** Custom slide content; when set, used instead of `images` */
@@ -91,6 +92,8 @@ const Carousel_002 = ({
   loop?: boolean;
   autoplay?: boolean;
   spaceBetween?: number;
+  /** Fade/rise in on mount; turn off when the parent animates the carousel itself */
+  animateIn?: boolean;
 }) => {
   const css = `
   .Carousal_002 {
@@ -99,7 +102,7 @@ const Carousel_002 = ({
   `;
   return (
     <motion.div
-      initial={{ opacity: 0, translateY: 20 }}
+      initial={animateIn ? { opacity: 0, translateY: 20 } : false}
       animate={{ opacity: 1, translateY: 0 }}
       transition={{
         duration: 0.3,
