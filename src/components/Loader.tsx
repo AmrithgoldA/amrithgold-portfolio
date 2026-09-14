@@ -23,7 +23,7 @@ export default function Loader({
             {/* backdrop dissolves so the page shows through */}
             {fullScreen && (
                 <span
-                    className={`absolute inset-0 bg-[rgb(0,3,25)] transition-opacity duration-[900ms] ease-out ${expanding ? "opacity-0" : "opacity-100"
+                    className={`absolute inset-0 bg-[rgb(0,3,25)] transition-opacity [transition-duration:900ms] ease-out ${expanding ? "opacity-0" : "opacity-100"
                         }`}
                 />
             )}
