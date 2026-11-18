@@ -5,6 +5,7 @@ import Marquee from "react-fast-marquee";
 import { MagicCard } from "../../assets/Animations/MagicCard";
 import { useEffect, useRef, useState } from "react";
 import { getSkillsData, getCarrierDetails } from "../../api/routes/CarrierHistoryRoute";
+import { localSkills, Skill } from "../../data/localSkills";
 import { getLocalImage } from "../../lib/getLocalAsset";
 import { MovingBorder } from "./MovingBorder";
 import { JobExperience } from "../../types/carrierType";
@@ -106,9 +107,14 @@ export default function CarrerHistory() {
 
     const getUSerSkills = async () => {
 
-        const userSkillsResponse: any = await getSkillsData()
+        const userSkillsResponse: any = await getSkillsData().catch(() => null)
+        const apiSkills: Skill[] = Array.isArray(userSkillsResponse?.data) ? userSkillsResponse.data : [];
 
-        const updatedSkillsArray: any = userSkillsResponse.data.map((eachFile: any) => {
+        // Local skills fill in anything the database doesn't have yet (matched by name)
+        const apiNames = new Set(apiSkills.map((skill) => skill.skill_name.trim().toLowerCase()));
+        const missingLocal = localSkills.filter((skill) => !apiNames.has(skill.skill_name.trim().toLowerCase()));
+
+        const updatedSkillsArray: any = [...apiSkills, ...missingLocal].map((eachFile: any) => {
             const skillImage = getLocalImage(eachFile.firebase_file_name);
             return { ...eachFile, image: skillImage };
         });
