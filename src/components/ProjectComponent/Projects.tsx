@@ -5,6 +5,7 @@ import { getProjectsDetails } from "../../api/routes/ProjectRoute";
 import { Project } from "../../types/Project";
 import { ProjectCard } from "./ProjectCard";
 import { getLocalImage } from "../../lib/getLocalAsset";
+import { localProjects } from "../../data/localProjects";
 import { Modal, ModalBody, ModalContent } from "./Modal";
 import { FaEye, FaGithub } from "react-icons/fa";
 import { useModal } from "../../context/ModalProvider";
@@ -111,8 +112,13 @@ export default function Projects() {
 
     const projectDetails = async () => {
         const response: any = await getProjectsDetails();
+        const apiProjects: Project[] = Array.isArray(response?.data) ? response.data : [];
 
-        const updatedProjectDetails: any = response.data.map((eachFile: any) => {
+        // Local projects fill in anything the database doesn't have yet (matched by title)
+        const apiTitles = new Set(apiProjects.map((project) => project.title.trim().toLowerCase()));
+        const missingLocal = localProjects.filter((project) => !apiTitles.has(project.title.trim().toLowerCase()));
+
+        const updatedProjectDetails: any = [...apiProjects, ...missingLocal].map((eachFile: any) => {
             const updatedImages: any = eachFile.images.map((image: string) => {
                 return getLocalImage(image) || image;
             });
