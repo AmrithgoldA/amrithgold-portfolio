@@ -44,21 +44,37 @@ export default function LandingPage() {
         mm.add(MOTION_OK, () => {
             // Card unveils top to bottom, then its text rises line by line
             const addCardReveal = (timeline: gsap.core.Timeline, start: number) => {
-                const split = SplitText.create([journeyHeading, journeyText, tagline], { type: "lines", mask: "lines" });
-                // Each split line is its own block, so keep the paragraph's justified look while it animates
-                if (getComputedStyle(journeyText).textAlign === "justify") {
-                    const paragraphLines = split.lines.filter((line) => journeyText.contains(line)) as HTMLElement[];
-                    paragraphLines.slice(0, -1).forEach((line) => { line.style.textAlignLast = "justify"; });
-                }
-
                 timeline
                     .fromTo(card,
                         { clipPath: "inset(0% 0% 100% 0% round 8px)" },
                         { clipPath: "inset(0% 0% 0% 0% round 8px)", duration: 1, ease: "power3.inOut", clearProps: "clipPath" },
                         start)
-                    .from(profile, { scale: 1.3, duration: 1.2, ease: "power3.out" }, start)
-                    .from(split.lines, { yPercent: 110, opacity: 0, duration: 0.7, ease: "power3.out", stagger: 0.06 }, start + 0.4);
-                return split;
+                    .from(profile, { scale: 1.3, duration: 1.2, ease: "power3.out" }, start);
+
+                // The page can mount before the Inter web font has loaded. autoSplit re-measures the lines
+                // once fonts finish loading (or the width changes), so lines measured in the fallback font
+                // never wrap onto two rows. Each re-split swaps in a fresh tween at the same spot.
+                let linesTween: gsap.core.Tween | undefined;
+                return SplitText.create([journeyHeading, journeyText, tagline], {
+                    type: "lines",
+                    mask: "lines",
+                    autoSplit: true,
+                    onSplit: (self) => {
+                        // Each split line is its own block, so keep the paragraph's justified look while it animates
+                        if (getComputedStyle(journeyText).textAlign === "justify") {
+                            const paragraphLines = self.lines.filter((line) => journeyText.contains(line)) as HTMLElement[];
+                            paragraphLines.slice(0, -1).forEach((line) => { line.style.textAlignLast = "justify"; });
+                        }
+
+                        if (linesTween) timeline.remove(linesTween);
+                        linesTween = gsap.from(self.lines, { yPercent: 110, opacity: 0, duration: 0.7, ease: "power3.out", stagger: 0.06 });
+                        timeline.add(linesTween, start + 0.4);
+                        // A late re-split lands mid-reveal or after it: render the new lines at the timeline's
+                        // current spot right away so lines already in view don't flash hidden for a frame
+                        const elapsed = timeline.time() - (start + 0.4);
+                        if (elapsed > 0) linesTween.render(Math.min(elapsed, linesTween.totalDuration()), true, true);
+                    },
+                });
             };
 
             // Intro: this page mounts as the loader starts to dissolve, so the timeline starts right away.
