@@ -34,7 +34,7 @@ export function ProjectCard({ data }: any) {
 						<ImagePlaceholder />
 					</div>
 				}
-				<h3 className="line-clamp-1 max-w-xs !pb-2 !m-0 font-bold  text-base text-blue-100">
+				<h3 className="line-clamp-1 max-w-xs !m-0 !mb-2 !p-0 font-bold text-base text-blue-100">
 					{data.title}
 				</h3>
 				<div className="text-base !m-0 !p-0 font-normal">
