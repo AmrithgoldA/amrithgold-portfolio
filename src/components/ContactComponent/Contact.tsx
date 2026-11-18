@@ -32,8 +32,8 @@ export default function Contact() {
 
         const getSocialLinksData = async () => {
 
-            const socialLinksResponse = await getSocialLinks()
-            setsocialLinks(socialLinksResponse.data)
+            const socialLinksResponse: any = await getSocialLinks().catch(() => null)
+            if (Array.isArray(socialLinksResponse?.data)) setsocialLinks(socialLinksResponse.data)
 
         }
 

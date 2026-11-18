@@ -123,9 +123,12 @@ export default function CarrerHistory() {
     }
 
     const getCarrierData = async () => {
-        const userCarrierList: any = await getCarrierDetails()
+        const userCarrierList: any = await getCarrierDetails()?.catch(() => null)
+        const carrierItems: JobExperience[] = Array.isArray(userCarrierList?.data) ? userCarrierList.data : [];
+        // Nothing came back: keep the loading placeholder rather than rendering an empty list
+        if (!carrierItems.length) return;
 
-        const updatedCarrierList: JobExperience[] = userCarrierList.data.map((eachList: JobExperience) => {
+        const updatedCarrierList: JobExperience[] = carrierItems.map((eachList: JobExperience) => {
             const companyLogo = getLocalImage(eachList.companylogo);
             return { ...eachList, companylogo: companyLogo || eachList.companylogo }
         });
